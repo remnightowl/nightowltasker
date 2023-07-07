@@ -23,7 +23,7 @@ Route::get('/newbranch', function () {
 })->middleware('auth');
 
 
-Route::get('/newuser', [Controller::class, 'reports'])->middleware('auth');
+Route::get('/newuser', [Controller::class, 'newuser'])->middleware('auth');
 Route::get('/reports', [Controller::class, 'reports'])->middleware('auth');
 Route::get('/newloan', [Controller::class, 'newloan'])->middleware('auth');
 Route::get('/typeofrequest', [Controller::class, 'typeofrequest'])->middleware('auth');
