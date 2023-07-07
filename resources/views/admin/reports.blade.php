@@ -149,7 +149,6 @@
             dataType: 'JSON',
             success: function(response){
 
-                alert(response);
                 myChart.data.datasets[0].data = response;
                 myChart.update();
             }
@@ -172,7 +171,6 @@
             dataType: 'JSON',
             success: function(response){
 
-                alert(response);
                 myChart.data.datasets[0].data = response;
                 myChart.update();
             }
