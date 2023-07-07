@@ -253,13 +253,13 @@
                                                         <button class="btn btn-md btn-success btn-round" id="fastracksubmissionstart" style="padding: 10px 40px;" type="button">START</button>
                                                     </div>
                                                     <div class="col-lg-3 col-md-12 col-sm-10">
-                                                        <input type="datetime-local" name="fastractsubmissionstart" id="datetimeftsubmissionstart" value="{{ $start }}" class="form-control">
+                                                        <input type="datetime-local" name="fastracksubmissionstart" id="datetimeftsubmissionstart" value="{{ $start }}" class="form-control">
                                                     </div>
                                                     <div class="col-lg-2 col-md-8 col-sm-10">
                                                         <button class="btn btn-md btn-danger btn-round" id="fastracksubmissionend" style="padding: 10px 40px;" type="button">END</button>
                                                     </div>
                                                     <div class="col-lg-3 col-md-12 col-sm-10">
-                                                        <input type="datetime-local" name="fastractsubmissionend" id="datetimeftsubmissionend" value="{{ $end }}" class="form-control">
+                                                        <input type="datetime-local" name="fastracksubmissionend" id="datetimeftsubmissionend" value="{{ $end }}" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
