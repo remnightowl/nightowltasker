@@ -51,9 +51,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Requestor</label>
                                             <div class="col-sm-4">
-                                                <select name="requestor" id="requestor" class="form-control" disabled>
-                                                    <option value="" disabled></option>
-                                                </select>
+                                                <input type="text" class="form-control" name="requestor" value="{{old('requestor')}}">
                                             </div>
                                             <label class="col-sm-2 col-form-label">Assigned Loan Coordinator</label>
                                             <div class="col-sm-4">

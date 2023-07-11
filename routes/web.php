@@ -48,8 +48,11 @@ Route::post('deleteuser', [Controller::class,'deleteuser'])->middleware('auth');
 Route::post('deletebranch', [Controller::class,'deletebranch'])->middleware('auth');
 Route::post('/login', [Controller::class,'login']);
 Route::post('/logout', [Controller::class,'logout']);
-Route::post('/newtask', [Controller::class,'newtask']);
+Route::post('/newtask', [Controller::class,'newtask'])->middleware('auth');;
 Route::post('/neworderout', [Controller::class,'neworderout']);
 Route::post('/branchandtasksmonthly', [Controller::class,'branchandtasksmonthly']);
+Route::post('/branchandorderoutsmonthly', [Controller::class,'branchandorderoutsmonthly']);
+
+Route::get('/test', [Controller::class,'test']);
 
 

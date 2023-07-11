@@ -57,11 +57,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Requestor</label>
                                             <div class="col-sm-4">
-                                                <select name="requestor" id="requestor" class="form-control">
-                                                    @foreach($requestors as $requestor)
-                                                        <option @if($requestor->id == $loan->requestor) selected @endif value="{{$requestor->id}}">{{$requestor->first_name}} {{$requestor->first_name}}</option>
-                                                    @endforeach
-                                                </select>
+                                                <input type="text" class="form-control" name="requestor" value="{{$loan->requestor}}">
                                             </div>
                                             <label class="col-sm-2 col-form-label">Assigned Loan Coordinator</label>
                                             <div class="col-sm-4">

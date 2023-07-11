@@ -186,7 +186,7 @@ class Controller extends BaseController
         $result = DB::table('user')
                     ->select('*')
                     ->where('branch', '=', $data->branch)
-                    ->where('user_type', '!=', 0)
+                    ->where('user_type', '=', 1)
                     ->get();
 
         return response()->json($result);
@@ -260,8 +260,7 @@ class Controller extends BaseController
 
         $loans = DB::table('loans')
                     ->join('branch', 'loans.branch', '=', 'branch.id')
-                    ->join('user', 'loans.requestor', '=', 'user.id')
-                    ->select('user.*', 'branch.*', 'loans.*')
+                    ->select('branch.*', 'loans.*')
                     ->get();
 
         $coordinators = array();
@@ -571,31 +570,94 @@ class Controller extends BaseController
 
     public function reports(){
 
-        $data = Branch::all();
+        $branches = Branch::all();
+        $firstLoan = Loans::first();
+        $branch = Branch::where('id','=',$firstLoan->branch)->first();
+        $branchname = $branch->branch_name;
+        $firstbranch = $firstLoan->branch;
+        $currentmonth = date("m");
 
-        $test = DB::table('tasks')
-                    ->select('*')
-                    ->whereMonth('end', '=' , '07')
-                    ->get();
+        $monthlytasks = $this->monthlytaskreport();
+        $monthlyorderouts = $this->monthlyorderoutsreport();
 
-        return view('admin.reports',compact('data'));
+        return view('admin.reports',compact('branches','monthlytasks','currentmonth','firstbranch','branchname','monthlyorderouts'));
+    }
+
+    public function monthlytaskreport(){
+
+        $scrub = $filesetup = $disclosure = $appraisal = $fastrackdisclosure = $fastracksubmission = 0;
+        $firstLoan = Loans::first();
+        $finalresult = [];
+
+        $tasks = DB::table('tasks')
+                ->join('loans','loans.id', '=', 'tasks.loan')
+                ->join('branch','branch.id', '=', 'loans.branch')
+                ->select('tasks.*','loans.*','branch.*')
+                ->where('loans.branch', '=', $firstLoan->branch)
+                ->whereMonth('end', '=' , date("m"))
+                ->whereYear('end', '=' , date("Y"))
+                ->get();
+                
+        foreach($tasks as $results){
+            switch($results->task_name){
+                case('Scrub'):
+                    $scrub = $scrub + 1;
+                break;
+
+                case('Appraisal'):
+                    $appraisal = $appraisal + 1;
+                break;
+
+                case('File Setup'):
+                    $filesetup = $filesetup + 1;
+                break;
+
+                case('Disclosure'):
+                    $disclosure = $disclosure + 1;
+                break;
+
+                case('FasTrack Disclosure'):
+                    $fastrackdisclosure = $fastrackdisclosure + 1;
+                break;
+
+                case('FasTrack Submission'):
+                    $fastracksubmission = $fastracksubmission + 1;
+                break;
+            }
+        }
+
+        array_push($finalresult,$scrub);
+        array_push($finalresult,$disclosure);
+        array_push($finalresult,$filesetup);
+        array_push($finalresult,$appraisal);
+        array_push($finalresult,$fastrackdisclosure);
+        array_push($finalresult,$fastracksubmission);
+
+        return $finalresult;
     }
 
     public function branchandtasksmonthly(Request $data){
 
         $scrub = $filesetup = $disclosure = $appraisal = $fastrackdisclosure = $fastracksubmission = 0;
 
-        $test = DB::table('tasks')
+        $tasks = DB::table('tasks')
                 ->join('loans','loans.id', '=', 'tasks.loan')
                 ->join('branch','branch.id', '=', 'loans.branch')
                 ->select('tasks.*','loans.*','branch.*')
                 ->where('loans.branch', '=', $data->branch)
                 ->whereMonth('end', '=' , $data->month)
+                ->whereYear('end', '=' , date("Y"))
                 ->get();
+
+        $branch = Branch::where('id','=',$data->branch)->first();
+        $branchname = $branch->branch_name;
         
+        $dateObj = \DateTime::createFromFormat('!m', $data->month);
+        $monthName = $dateObj->format('F');
+
         $finalresult = [];
         
-        foreach($test as $results){
+        foreach($tasks as $results){
             switch($results->task_name){
                 case('Scrub'):
                     $scrub = $scrub + 1;
@@ -631,8 +693,281 @@ class Controller extends BaseController
         array_push($finalresult,$fastrackdisclosure);
         array_push($finalresult,$fastracksubmission);
 
-        return response()->json($finalresult);
+        $text = 'Tasks completed for the month of '.$monthName.' for '.$branchname.' branch';
+        
+        return response()->json([
+            'data' => $finalresult,
+            'datatext' => $text
+        ]);
     }
 
+    public function monthlyorderoutsreport(){
+        $eoi = $collectionpayoff = $creditsupplement = $floodinsurance = $masterinsurance = $mortgagepayoff = $paymentvom = $titledocs = $taxtranscript = $vvoe = $pestinspection = $wvoeb1 = $wvoeb2 = $wvoeb3 = $wvoecb1 = $wvoecb2 = $wvoecb3 = 0;
+        $firstLoan = Loans::first();
+        $finalresult = [];
+
+        $data = DB::table('orderouts')
+                ->join('loans', 'orderouts.loan', '=', 'loans.id')
+                ->join('branch', 'loans.branch', '=', 'branch.id')
+                ->select('orderouts.*', 'branch.*', 'loans.*')
+                ->where('loans.branch','=',$firstLoan->branch)
+                ->where('status', '=', 'Completed')
+                ->whereRaw(
+                    "CASE
+                        WHEN third IS NOT NULL THEN MONTH(third) = MONTH(now()) AND YEAR(third) = YEAR(now())
+                        WHEN second IS NOT NULL THEN MONTH(second) = MONTH(now()) AND YEAR(second) = YEAR(now())
+                        ELSE MONTH(first) = MONTH(now()) AND YEAR(first) = YEAR(now())
+                    END
+                    "
+                )
+                ->get();
+
+
+        foreach($data as $results){
+            switch($results->orderouts_name){
+                case('EOI'):
+                    $eoi++;
+                break;
+
+                case('Master Insurance'):
+                    $masterinsurance++;
+                break;
+
+                case('Flood Insurance'):
+                    $floodinsurance++;
+                break;
+
+                case('Mortgage Payoff'):
+                    $mortgagepayoff++;
+                break;
+
+                case('Collection Payoff'):
+                    $collectionpayoff++;
+                break;
+
+                case('Credit Supplement'):
+                    $creditsupplement++;
+                break;
+
+                case('VVOE'):
+                    $vvoe++;
+                break;
+
+                case('WVOE Borrower 1'):
+                    $wvoeb1++;
+                break;
+
+                case('WVOE Borrower 2'):
+                    $wvoeb2 = $wvoeb2 + 1;
+                break;
+
+                case('WVOE Borrower 3'):
+                    $wvoeb3++;
+                break;
+
+                case('WVOE Co-borrower 1'):
+                    $wvoecb1++;
+                break;
+
+                case('WVOE Co-borrower 2'):
+                    $wvoecb2++;
+                break;
+
+                case('WVOE Co-borrower 3'):
+                    $wvoecb3++;
+                break;
+
+                case('Tax Transcript'):
+                    $taxtranscript++;
+                break;
+
+                case('Pest Inspection'):
+                    $pestinspection++;
+                break;
+
+                case('24 Payment-VOM'):
+                    $paymentvom++;
+                break;
+
+                case('Title Docs'):
+                    $itledocs++;
+                break;
+            }
+        }
+
+        array_push($finalresult,$eoi);
+        array_push($finalresult,$collectionpayoff);
+        array_push($finalresult,$creditsupplement);
+        array_push($finalresult,$floodinsurance);
+        array_push($finalresult,$masterinsurance);
+        array_push($finalresult,$mortgagepayoff);
+        array_push($finalresult,$paymentvom);
+        array_push($finalresult,$titledocs);
+        array_push($finalresult,$taxtranscript);
+        array_push($finalresult,$vvoe);
+        array_push($finalresult,$wvoeb1);
+        array_push($finalresult,$wvoeb2);
+        array_push($finalresult,$wvoeb3);
+        array_push($finalresult,$wvoecb1);
+        array_push($finalresult,$wvoecb2);
+        array_push($finalresult,$wvoecb3);
+        array_push($finalresult,$pestinspection);
+
+        return $finalresult;
+    }
+
+    public function branchandorderoutsmonthly(Request $data){
+
+        $eoi = $collectionpayoff = $creditsupplement = $floodinsurance = $masterinsurance = $mortgagepayoff = $paymentvom = $titledocs = $taxtranscript = $vvoe = $pestinspection = $wvoeb1 = $wvoeb2 = $wvoeb3 = $wvoecb1 = $wvoecb2 = $wvoecb3 = 0;
+
+        $orderout = DB::table('orderouts')
+                ->join('loans', 'orderouts.loan', '=', 'loans.id')
+                ->join('branch', 'loans.branch', '=', 'branch.id')
+                ->select('orderouts.*', 'branch.*', 'loans.*')
+                ->where('loans.branch','=', $data->branch)
+                ->where('status', '=', 'Completed')
+                ->whereRaw(
+                    "CASE
+                        WHEN third IS NOT NULL THEN MONTH(third) = ? AND YEAR(third) = YEAR(now())
+                        WHEN second IS NOT NULL THEN MONTH(second) = ? AND YEAR(second) = YEAR(now())
+                        ELSE MONTH(first) = ? AND YEAR(first) = YEAR(now())
+                    END
+                    ", [$data->month,$data->month,$data->month]
+                )
+                ->get();
+
+        $branch = Branch::where('id','=',$data->branch)->first();
+        $branchname = $branch->branch_name;
+        
+        $dateObj = \DateTime::createFromFormat('!m', $data->month);
+        $monthName = $dateObj->format('F');
+
+        $finalresult = [];
+
+        foreach($orderout as $results){
+            switch($results->orderouts_name){
+                case('EOI'):
+                    $eoi++;
+                break;
+
+                case('Master Insurance'):
+                    $masterinsurance++;
+                break;
+
+                case('Flood Insurance'):
+                    $floodinsurance++;
+                break;
+
+                case('Mortgage Payoff'):
+                    $mortgagepayoff++;
+                break;
+
+                case('Collection Payoff'):
+                    $collectionpayoff++;
+                break;
+
+                case('Credit Supplement'):
+                    $creditsupplement++;
+                break;
+
+                case('VVOE'):
+                    $vvoe++;
+                break;
+
+                case('WVOE Borrower 1'):
+                    $wvoeb1++;
+                break;
+
+                case('WVOE Borrower 2'):
+                    $wvoeb2 = $wvoeb2 + 1;
+                break;
+
+                case('WVOE Borrower 3'):
+                    $wvoeb3++;
+                break;
+
+                case('WVOE Co-borrower 1'):
+                    $wvoecb1++;
+                break;
+
+                case('WVOE Co-borrower 2'):
+                    $wvoecb2++;
+                break;
+
+                case('WVOE Co-borrower 3'):
+                    $wvoecb3++;
+                break;
+
+                case('Tax Transcript'):
+                    $taxtranscript++;
+                break;
+
+                case('Pest Inspection'):
+                    $pestinspection++;
+                break;
+
+                case('24 Payment-VOM'):
+                    $paymentvom++;
+                break;
+
+                case('Title Docs'):
+                    $itledocs++;
+                break;
+            }
+        }
+
+        array_push($finalresult,$eoi);
+        array_push($finalresult,$collectionpayoff);
+        array_push($finalresult,$creditsupplement);
+        array_push($finalresult,$floodinsurance);
+        array_push($finalresult,$masterinsurance);
+        array_push($finalresult,$mortgagepayoff);
+        array_push($finalresult,$paymentvom);
+        array_push($finalresult,$titledocs);
+        array_push($finalresult,$taxtranscript);
+        array_push($finalresult,$vvoe);
+        array_push($finalresult,$wvoeb1);
+        array_push($finalresult,$wvoeb2);
+        array_push($finalresult,$wvoeb3);
+        array_push($finalresult,$wvoecb1);
+        array_push($finalresult,$wvoecb2);
+        array_push($finalresult,$wvoecb3);
+        array_push($finalresult,$pestinspection);
+
+        $text = 'Order outs completed for the month of '.$monthName.' for '.$branchname.' branch';
+        
+        return response()->json([
+            'data' => $finalresult,
+            'datatext' => $text
+        ]);
+    }
+
+    public function test(){
+        
+        $firstLoan = Loans::first();
+
+        $month = 06;
+
+        $data = DB::table('orderouts')
+                ->join('loans', 'orderouts.loan', '=', 'loans.id')
+                ->join('branch', 'loans.branch', '=', 'branch.id')
+                ->select('orderouts.*', 'branch.*', 'loans.*')
+                ->where('loans.branch','=', $firstLoan->branch)
+                ->where('status', '=', 'Completed')
+                ->whereRaw(
+                    "CASE
+                        WHEN third IS NOT NULL THEN MONTH(third) = ? AND YEAR(third) = YEAR(now())
+                        WHEN second IS NOT NULL THEN MONTH(second) = ? AND YEAR(second) = YEAR(now())
+                        ELSE MONTH(first) = ? AND YEAR(first) = YEAR(now())
+                    END
+                    ", [$month,$month,$month]
+                )
+                ->get();
+
+        dd($data);
+        
+    }
+
+   
     
 }

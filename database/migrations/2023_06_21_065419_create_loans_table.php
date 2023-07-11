@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('borrower');
             $table->longText('remarks')->nullable();
             $table->integer('branch');
-            $table->integer('requestor');
+            $table->string('requestor');
             $table->integer('loan_coordinator');
             $table->integer('demotech');
             $table->integer('floodcert');
