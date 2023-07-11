@@ -30,9 +30,7 @@ $.ajaxSetup({
 
         if(branch != ""){
             $('#coordinator').find("option").remove();
-            $('#requestor').find("option").remove();
             $('#coordinator').prop("disabled", false);
-            $('#requestor').prop("disabled", false);
 
             $.ajax({
                 url: '/requestorandcoordinator',
@@ -47,12 +45,8 @@ $.ajaxSetup({
 
                     for(x = 0; x < response.length; x++){
 
-                        if(response[x].user_type == 1){
-                            $('#coordinator').append('<option value="' + response[x].id + '">' + response[x].first_name + ' ' + response[x].last_name + '</option>');
-                        }
-                        else{
-                            $('#requestor').append('<option value="' + response[x].id + '">' + response[x].first_name + ' ' + response[x].last_name + '</option>');
-                        }
+                        $('#coordinator').append('<option value="' + response[x].id + '">' + response[x].first_name + ' ' + response[x].last_name + '</option>');
+                       
                     }
                 }
             });
@@ -61,8 +55,6 @@ $.ajaxSetup({
 
             $('#coordinator').prop("disabled", true);
             $('#coordinator').find("option").remove();
-            $('#requestor').prop("disabled", true);
-            $('#requestor').find("option").remove();
 
         }   
     });

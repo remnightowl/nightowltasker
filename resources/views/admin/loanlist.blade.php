@@ -44,7 +44,7 @@
                                                         <td> {{ $loan->loan_number }} </td>
                                                         <td> {{ $loan->branch_name }} </td>
                                                         <td> {{ $loan->borrower }} </td>
-                                                        <td> {{ $loan->first_name }} {{ $loan->last_name }} </td>
+                                                        <td> {{ $loan->requestor }} </td>
                                                         <td> {{$coordinators[$x]}}</td>
                                                         <td> {{$loan->remarks}} </td>
                                                         <td>

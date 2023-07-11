@@ -65,7 +65,6 @@
                                                 <select name="userrole" class="form-control">
                                                     <option></option>
                                                     <option value="1" >Loan Coordinator</option>
-                                                    <option value="2">Requestor</option>
                                                     <option value="0">Admin</option>
                                                 </select>
                                             </div>
