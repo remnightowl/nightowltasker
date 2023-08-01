@@ -10,7 +10,7 @@
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
-                                    <h4>Branch List</h4>
+                                    <h4>Loans List</h4>
                                 </div>
                             </div>
                         </div>

@@ -563,7 +563,7 @@ class Controller extends BaseController
             }
             array_push($coordinatorslist,$coordinatorname);
         }
-
+        
         return view('admin.overdueorderouts', compact('data','coordinatorslist','users'));
 
     }

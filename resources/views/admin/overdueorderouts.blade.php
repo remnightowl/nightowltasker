@@ -44,12 +44,8 @@
                                                         <td>{{ $overdueorderout->loan_number }}</td>
                                                         <td>{{ $overdueorderout->branch_name }}</td>
                                                         <td>{{ $overdueorderout->orderouts_name }}</td>
-                                                        <td>{{ $overdueorderout->borrower }}</td>
-                                                        @foreach ($users as $user)
-                                                            @if ($user->id == $overdueorderout->requestor)
-                                                                <td>{{ $user->first_name}} {{$user->last_name}}</td>
-                                                            @endif
-                                                        @endforeach
+                                                        <td>{{ $overdueorderout->borrower }}</td> 
+                                                        <td>{{ $overdueorderout->requestor }}</td>
                                                         <td>{{ $coordinatorslist[$x] }}</td>
                                                         <td>
                                                             @if (!empty($overdueorderout->first))
