@@ -273,4 +273,88 @@ $.ajaxSetup({
         form.submit();
     })
 
+    $('.completetask').click(function(e){
+        e.preventDefault();
+
+        var id = $(this).attr("id");
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "you want to complete this task?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, complete it!'
+        }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/taskcomplete',
+                        type: 'POST',
+                        data: {
+                            id: id
+                        },
+                        dataType: 'HTML',
+                        success: function(){
+                            Swal.fire(
+                                'Success!',
+                                'Task has been completed.',
+                                'success'
+                            ).then((success) => {
+                                if(success.isConfirmed){
+                                    window.location.reload();
+                                }
+                            })
+                        }
+                    });
+                    
+                }
+            })
+    });
+
+    $('.orderoutstatus').change(function(e){
+        e.preventDefault();
+
+        var status = $('.orderoutstatus').find(":selected").val();
+        var id = $(this).attr("id");
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to change this status?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, change it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/orderoutchangestatus',
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        status: status
+                    },
+                    dataType: 'HTML',
+                    success: function(){
+                        Swal.fire(
+                            'Success!',
+                            'Status has been changed.',
+                            'success'
+                        ).then((success) => {
+                            if(success.isConfirmed){
+                                window.location.reload();
+                            }
+                        })
+                    }
+                });
+            }
+        })
+    });
+    
+
+        
+
+    
+
 </script>

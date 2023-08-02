@@ -10,7 +10,7 @@
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
-                                    <h4>Loans List</h4>
+                                    <h4>Tasks</h4>
                                 </div>
                             </div>
                         </div>
@@ -27,40 +27,34 @@
                                                 <tr>
                                                     <th>Loan Number</th>
                                                     <th>Branch</th>
+                                                    <th>Task Name</th>
                                                     <th>Borrower</th>
                                                     <th>Requestor</th>
-                                                    <th>Assigned Loan Coordinators</th>
-                                                    <th>remarks</th>
-                                                    <th>Action</th>
+                                                    <th>Loan Coordinator</th>
+                                                    <th>Date Started</th>
+                                                    <th>Satus</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php 
-                                                    $x = 0;
-                                                ?>
-                                                @foreach ($loans as $loan)
-                                                    
+                                                @php ($x = 0)
+                                                @foreach ($data as $tasks)
                                                     <tr>
-                                                        <td> {{ $loan->loan_number }} </td>
-                                                        <td> {{ $loan->branch_name }} </td>
-                                                        <td> {{ $loan->borrower }} </td>
-                                                        <td> {{ $loan->requestor }} </td>
-                                                        <td> {{$coordinators[$x]}}</td>
-                                                        <td> {{$loan->remarks}} </td>
+                                                        <td>{{ $tasks->loan_number }}</td>
+                                                        <td>{{ $tasks->branch_name }}</td>
+                                                        <td>{{ $tasks->task_name }}</td>
+                                                        <td>{{ $tasks->borrower }}</td>
+                                                        <td>{{ $tasks->requestor }}</td>
+                                                        <td>{{ $coordinatorslist[$x] }}</td>
+                                                        <td>{{ date('F d, Y',strtotime($tasks->start)) }}</td>
                                                         <td>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <a href="/loaninformation/{{$loan->id}}">
-                                                                        <button class="btn btn-md btn-success btn-round"><i class="feather icon-edit"></i>Full Information</button>
-                                                                    </a>
-                                                                    <button class="btn btn-md btn-danger btn-round"><i class="feather icon-edit"></i>Delete</button>
-                                                                </div>     
-                                                            </div>
+                                                            @if (!@empty($tasks->end))
+                                                                Completed
+                                                            @else
+                                                                <button class="btn btn-md btn-warning btn-round completetask" id="{{$tasks->id}}">Mark as complete</button>
+                                                            @endif
                                                         </td>
                                                     </tr>
-                                                    <?php 
-                                                        $x++;
-                                                    ?> 
+                                                    @php($x++)
                                                 @endforeach
                                             </tbody>
                                         </table>
@@ -76,8 +70,3 @@
 </div>
 
 @include('admin/footer')
-
-
-
-
-

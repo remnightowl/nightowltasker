@@ -10,7 +10,7 @@
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
-                                    <h4>Order Outs List</h4>
+                                    <h4>Order Outs</h4>
                                 </div>
                             </div>
                         </div>
@@ -34,48 +34,49 @@
                                                     <th>First</th>
                                                     <th>Second</th>
                                                     <th>Third</th>
-                                                    <th>Days passed from interval</th>
+                                                    <th>Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @php ($x = 0)
-                                                @foreach ($data as $overdueorderout)
+                                                @foreach ($data as $orderout)
                                                     <tr>
-                                                        <td>{{ $overdueorderout->loan_number }}</td>
-                                                        <td>{{ $overdueorderout->branch_name }}</td>
-                                                        <td>{{ $overdueorderout->orderouts_name }}</td>
-                                                        <td>{{ $overdueorderout->borrower }}</td> 
-                                                        <td>{{ $overdueorderout->requestor }}</td>
+                                                        <td>{{ $orderout->loan_number }}</td>
+                                                        <td>{{ $orderout->branch_name }}</td>
+                                                        <td>{{ $orderout->orderouts_name }}</td>
+                                                        <td>{{ $orderout->borrower }}</td> 
+                                                        <td>{{ $orderout->requestor }}</td>
                                                         <td>{{ $coordinatorslist[$x] }}</td>
                                                         <td>
-                                                            @if (!empty($overdueorderout->first))
-                                                                {{ date('F d, Y',strtotime($overdueorderout->first)) }}
+                                                            @if (!empty($orderout->first))
+                                                                {{ date('F d, Y',strtotime($orderout->first)) }}
                                                             @endif
                                                             
                                                         </td>
                                                         <td>
-                                                            @if (!empty($overdueorderout->second))
-                                                                {{ date('F d, Y',strtotime($overdueorderout->second)) }}
+                                                            @if (!empty($orderout->second))
+                                                                {{ date('F d, Y',strtotime($orderout->second)) }}
                                                             @endif
                                                             
                                                         </td>
                                                         <td>
-                                                            @if (!empty($overdueorderout->third))
-                                                                {{ date('F d, Y',strtotime($overdueorderout->third)) }}
+                                                            @if (!empty($orderout->third))
+                                                                {{ date('F d, Y',strtotime($orderout->third)) }}
                                                             @endif
                                                             
                                                         </td>
-                                                        <td style="color: red;">
-                                                            @if (!empty($overdueorderout->third))
-                                                                {{ date_diff(new DateTime(), new DateTime(date('F d, Y',strtotime($overdueorderout->third))))->format('%d days') }}
-
-                                                                @else
-                                                                    @if (!empty($overdueorderout->second))
-                                                                        {{ date_diff(new DateTime(), new DateTime(date('F d, Y',strtotime($overdueorderout->second))))->format('%d days') }}
-                                                                    @else
-                                                                        {{ date_diff(new DateTime(), new DateTime(date('F d, Y',strtotime($overdueorderout->first))))->format('%d days') }}
-                                                                    @endif
-                                                            @endif
+                                                        <td>
+                                                            <select name="select" class="form-control form-control-inverse orderoutstatus" style="width: 150px; height: 20px;" id={{$orderout->id}}>
+                                                                <option value="" disabled selected>Please select status here</option>
+                                                                <option value="Completed" @if($orderout->status == 'Completed') selected @endif>Completed</option>
+                                                                <option value="Ordered" @if($orderout->status == 'Ordered') selected @endif>Ordered</option>
+                                                                <option value="Pending" @if($orderout->status == 'Pending') selected @endif>Pending</option>
+                                                                <option value="Waiting on Processor" @if($orderout->status == 'Waiting on Processor') selected @endif>Waiting on Processor</option>
+                                                                <option value="Waiting on Borrower" @if($orderout->status == 'Waiting on Borrower') selected @endif>Waiting on Borrower</option>
+                                                                <option value="Cancelled" @if($orderout->status == 'Cancelled') selected @endif>Cancelled</option>
+                                                                <option value="Withdrawn" @if($orderout->status == 'Withdrawn') selected @endif> Withdrawn</option>
+                                                                <option value="Closing Stage" @if($orderout->status == 'Closing Stage') selected @endif>Closing Stage</option>
+                                                            </select>
                                                         </td>
                                                     </tr>
                                                     @php($x++)

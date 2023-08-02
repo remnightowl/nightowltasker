@@ -174,6 +174,22 @@
                     </li>
                 </ul>
                 <ul class="pcoded-item pcoded-left-item">
+                    <li class=" ">
+                        <a href="/orderouts">
+                            <span class="pcoded-micon"><i class="feather icon-file-text"></i></span>
+                            <span class="pcoded-mtext">Order Outs</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="pcoded-item pcoded-left-item">
+                    <li class=" ">
+                        <a href="/tasks">
+                            <span class="pcoded-micon"><i class="feather icon-airplay"></i></span>
+                            <span class="pcoded-mtext">Tasks</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="pcoded-item pcoded-left-item">
                         <li class=" ">
                             <a href="/overduetasks">
                                 <span class="pcoded-micon"><i class="feather icon-clock"></i></span>

@@ -563,7 +563,7 @@ class Controller extends BaseController
             }
             array_push($coordinatorslist,$coordinatorname);
         }
-
+        
         return view('admin.overdueorderouts', compact('data','coordinatorslist','users'));
 
     }
@@ -942,30 +942,116 @@ class Controller extends BaseController
         ]);
     }
 
-    public function test(){
-        
-        $firstLoan = Loans::first();
+    public function tasks(){
 
-        $month = 06;
+        $data = DB::table('tasks')
+                    ->join('loans', 'tasks.loan', '=', 'loans.id')
+                    ->join('branch', 'loans.branch', '=', 'branch.id')
+                    ->select('tasks.*', 'branch.branch_name','loans.loan_number','loans.borrower','loans.requestor','loans.loan_coordinator')
+                    ->get();
+        
+        $users = User::all();
+
+        $loancoordinators = [];
+        $coordinatorslist = [];
+        $coordinatorname = "";
+
+        foreach($data as $coordinators){
+            array_push($loancoordinators,$coordinators->loan_coordinator);
+        }
+
+        for($x = 0; $x < count($loancoordinators); $x++){
+
+            $loan_coordinators = explode(',', $loancoordinators[$x]);
+
+            for($i = 0; $i < count($loan_coordinators); $i++){
+                foreach($users as $user){
+                    if($user->id == $loan_coordinators[$i]){
+                        if($i == 0){
+                            $coordinatorname = $user->first_name." ".$user->last_name;
+                            // array_push($coordinatorslist,$user->first_name." ".$user->last_name);
+                        }
+                        else{
+                            $coordinatorname = $coordinatorname.", ".$user->first_name." ".$user->last_name;
+                        }
+                    }
+                }
+                
+            }
+            array_push($coordinatorslist,$coordinatorname);
+        }
+
+        return view('admin.tasks', compact('data','coordinatorslist','users'));
+
+    }
+
+    public function taskcomplete(Request $data){
+
+        $now = date("Y-m-d\\TH:i:s");
+        Tasks::completeTask($data,$now);
+        return response()->json($data);
+    }
+
+    public function orderouts(){
 
         $data = DB::table('orderouts')
-                ->join('loans', 'orderouts.loan', '=', 'loans.id')
-                ->join('branch', 'loans.branch', '=', 'branch.id')
-                ->select('orderouts.*', 'branch.*', 'loans.*')
-                ->where('loans.branch','=', $firstLoan->branch)
-                ->where('status', '=', 'Completed')
-                ->whereRaw(
-                    "CASE
-                        WHEN third IS NOT NULL THEN MONTH(third) = ? AND YEAR(third) = YEAR(now())
-                        WHEN second IS NOT NULL THEN MONTH(second) = ? AND YEAR(second) = YEAR(now())
-                        ELSE MONTH(first) = ? AND YEAR(first) = YEAR(now())
-                    END
-                    ", [$month,$month,$month]
-                )
-                ->get();
+                    ->join('loans', 'orderouts.loan', '=', 'loans.id')
+                    ->join('branch', 'loans.branch', '=', 'branch.id')
+                    ->select('orderouts.*', 'branch.branch_name','branch.overdue_interval', 'loans.loan_number','loans.borrower','loans.requestor','loans.loan_coordinator')
+                    ->whereRaw(
+                        "CASE
+                            WHEN third IS NOT NULL THEN DATEDIFF(NOW(), third) >= `overdue_interval`
+                            WHEN second IS NOT NULL THEN DATEDIFF(NOW(), second) >= `overdue_interval`
+                            ELSE DATEDIFF(NOW(), first) >= `overdue_interval`
+                        END
+                        "
+                    )
+                    ->where('status', '!=', 'Completed')
+                    ->get();
 
-        dd($data);
+        $users = User::all();
+
+        $loancoordinators = [];
+        $coordinatorslist = [];
+        $coordinatorname = "";
+            
+        foreach($data as $coordinators){
+            array_push($loancoordinators,$coordinators->loan_coordinator);
+        }
+
+        for($x = 0; $x < count($loancoordinators); $x++){
+
+            $loan_coordinators = explode(',', $loancoordinators[$x]);
+
+            for($i = 0; $i < count($loan_coordinators); $i++){
+                foreach($users as $user){
+                    if($user->id == $loan_coordinators[$i]){
+                        if($i == 0){
+                            $coordinatorname = $user->first_name." ".$user->last_name;
+                            // array_push($coordinatorslist,$user->first_name." ".$user->last_name);
+                        }
+                        else{
+                            $coordinatorname = $coordinatorname.", ".$user->first_name." ".$user->last_name;
+                        }
+                    }
+                }
+                
+            }
+            array_push($coordinatorslist,$coordinatorname);
+        }
         
+        return view('admin.orderouts', compact('data','coordinatorslist','users'));
+    }
+
+    public function orderoutchangestatus(Request $data){
+
+        OrderOuts::updateStatus($data);
+        return response()->json($data);
+    }
+
+    public function test(){
+        
+        dd(date("Y-m-d\\TH:i:s"));
     }
 
    

@@ -45,11 +45,7 @@
                                                         <td>{{ $overduetasks->branch_name }}</td>
                                                         <td>{{ $overduetasks->task_name }}</td>
                                                         <td>{{ $overduetasks->borrower }}</td>
-                                                        @foreach ($users as $user)
-                                                            @if ($user->id == $overduetasks->requestor)
-                                                                <td>{{ $user->first_name}} {{$user->last_name}}</td>
-                                                            @endif
-                                                        @endforeach
+                                                        <td>{{ $overduetasks->requestor }}</td>
                                                         <td>{{ $coordinatorslist[$x] }}</td>
                                                         <td>{{ date('F d, Y',strtotime($overduetasks->start)) }}</td>
                                                         <td style="color: red;">{{ date_diff(new DateTime(), new DateTime(date('F d, Y',strtotime($overduetasks->start))))->format('%d days') }}</td>
