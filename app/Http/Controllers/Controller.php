@@ -1051,7 +1051,7 @@ class Controller extends BaseController
 
     public function test(){
         
-        dd(date("Y-m-d\\TH:i:s"));
+        dd("hello");
     }
 
    
