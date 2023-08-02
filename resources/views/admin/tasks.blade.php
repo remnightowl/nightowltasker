@@ -1,8 +1,6 @@
 @include('admin/header')
 @include('admin/navbar')
 
-@php(date_default_timezone_set('Asia/Manila'))
-
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
         <div class="main-body">
@@ -12,7 +10,7 @@
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
-                                    <h4>Overdue Tasks List</h4>
+                                    <h4>Tasks</h4>
                                 </div>
                             </div>
                         </div>
@@ -34,21 +32,27 @@
                                                     <th>Requestor</th>
                                                     <th>Loan Coordinator</th>
                                                     <th>Date Started</th>
-                                                    <th>Days passed from interval</th>
+                                                    <th>Satus</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @php ($x = 0)
-                                                @foreach ($data as $overduetasks)
+                                                @foreach ($data as $tasks)
                                                     <tr>
-                                                        <td>{{ $overduetasks->loan_number }}</td>
-                                                        <td>{{ $overduetasks->branch_name }}</td>
-                                                        <td>{{ $overduetasks->task_name }}</td>
-                                                        <td>{{ $overduetasks->borrower }}</td>
-                                                        <td>{{ $overduetasks->requestor }}</td>
+                                                        <td>{{ $tasks->loan_number }}</td>
+                                                        <td>{{ $tasks->branch_name }}</td>
+                                                        <td>{{ $tasks->task_name }}</td>
+                                                        <td>{{ $tasks->borrower }}</td>
+                                                        <td>{{ $tasks->requestor }}</td>
                                                         <td>{{ $coordinatorslist[$x] }}</td>
-                                                        <td>{{ date('F d, Y',strtotime($overduetasks->start)) }}</td>
-                                                        <td style="color: red;">{{ date_diff(new DateTime(), new DateTime(date('F d, Y',strtotime($overduetasks->start))))->format('%d days') }}</td>
+                                                        <td>{{ date('F d, Y',strtotime($tasks->start)) }}</td>
+                                                        <td>
+                                                            @if (!@empty($tasks->end))
+                                                                Completed
+                                                            @else
+                                                                <button class="btn btn-md btn-warning btn-round completetask" id="{{$tasks->id}}">Mark as complete</button>
+                                                            @endif
+                                                        </td>
                                                     </tr>
                                                     @php($x++)
                                                 @endforeach

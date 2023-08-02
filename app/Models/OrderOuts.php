@@ -49,4 +49,12 @@ class OrderOuts extends Model
                     ]
                 );
     }
+
+    public static function updateStatus($data){
+        DB::table('orderouts')
+            ->where('id',$data['id'])
+            ->update([
+                'status' => $data['status']
+            ]);
+    }
 }

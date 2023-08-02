@@ -40,4 +40,14 @@ class Tasks extends Model
                     ]
                 );
     }
+
+    public static function completeTask($data,$now){
+        DB::table('tasks')
+            ->where('id',$data['id'])
+            ->update([
+                'end' => $now
+            ]);
+            
+            
+    }
 }

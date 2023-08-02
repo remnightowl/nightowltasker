@@ -35,6 +35,8 @@ Route::get('/overdueorderouts', [Controller::class, 'overdueorderouts'])->middle
 Route::get('/userlist', [Controller::class, 'userlist'])->middleware('auth');
 Route::get('/branchlist', [Controller::class, 'branchlist'])->middleware('auth');
 Route::get('/loanlist', [Controller::class, 'loanlist'])->middleware('auth');
+Route::get('/tasks', [Controller::class, 'tasks'])->middleware('auth');
+Route::get('/orderouts', [Controller::class, 'orderouts'])->middleware('auth');
 Route::post('addbranch', [Controller::class,'addbranch'])->middleware('auth');
 Route::post('editbranch', [Controller::class,'editbranch'])->middleware('auth');
 Route::post('edituser', [Controller::class,'edituser'])->middleware('auth');
@@ -46,6 +48,8 @@ Route::post('loanedit', [Controller::class,'loanedit'])->name('loanedit')->middl
 Route::post('addloan', [Controller::class,'addloan'])->middleware('auth');
 Route::post('deleteuser', [Controller::class,'deleteuser'])->middleware('auth');
 Route::post('deletebranch', [Controller::class,'deletebranch'])->middleware('auth');
+Route::post('/taskcomplete', [Controller::class,'taskcomplete'])->middleware('auth');
+Route::post('/orderoutchangestatus', [Controller::class,'orderoutchangestatus'])->middleware('auth');
 Route::post('/login', [Controller::class,'login']);
 Route::post('/logout', [Controller::class,'logout']);
 Route::post('/newtask', [Controller::class,'newtask'])->middleware('auth');;
