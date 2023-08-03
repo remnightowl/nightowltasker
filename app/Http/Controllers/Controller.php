@@ -521,7 +521,7 @@ class Controller extends BaseController
         $data = DB::table('orderouts')
                     ->join('loans', 'orderouts.loan', '=', 'loans.id')
                     ->join('branch', 'loans.branch', '=', 'branch.id')
-                    ->select('orderouts.*', 'branch.branch_name','branch.overdue_interval', 'loans.*')
+                    ->select('orderouts.orderouts_name','orderouts.first', 'orderouts.second', 'orderouts.third','branch.branch_name','branch.overdue_interval', 'loans.loan_number','loans.requestor','loans.loan_coordinator','loans.borrower','loans.id')
                     ->whereRaw(
                         "CASE
                             WHEN third IS NOT NULL THEN DATEDIFF(NOW(), third) >= `overdue_interval`
@@ -563,6 +563,7 @@ class Controller extends BaseController
             }
             array_push($coordinatorslist,$coordinatorname);
         }
+        
         
         return view('admin.overdueorderouts', compact('data','coordinatorslist','users'));
 
@@ -1051,7 +1052,7 @@ class Controller extends BaseController
 
     public function test(){
         
-        dd("hello");
+        dd(date("Y-m-d\\TH:i:s"));
     }
 
    
