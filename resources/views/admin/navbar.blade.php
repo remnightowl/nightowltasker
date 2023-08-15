@@ -174,11 +174,31 @@
                     </li>
                 </ul>
                 <ul class="pcoded-item pcoded-left-item">
-                    <li class=" ">
-                        <a href="/orderouts">
-                            <span class="pcoded-micon"><i class="feather icon-file-text"></i></span>
+                    <li class="pcoded-hasmenu active pcoded">
+                        <a href="javascript:void(0)">
+                            <span class="pcoded-micon"><i class="feather icon-file-text"></i> </span>
                             <span class="pcoded-mtext">Order Outs</span>
                         </a>
+                        <ul class="pcoded-submenu">
+                            <li class=" ">
+                                <a href="/orderoutnamelist">
+                                    <i class="feather icon-file-plus" style="margin-right:10px;"></i>
+                                    <span class="pcoded"> Order outs name list</span>
+                                </a>
+                            </li>
+                            <li class=" ">
+                                <a href="/orderouts">
+                                    <i class="feather icon-file-text" style="margin-right:10px;"></i>
+                                    <span class="pcoded"> List of Order Outs</span>
+                                </a>
+                            </li>
+                            <li class=" ">
+                                <a href="/overdueorderouts">
+                                    <i class="feather icon-external-link" style="margin-right:10px;"></i>
+                                    <span class="pcoded"> Overdue Order Outs</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
                 <ul class="pcoded-item pcoded-left-item">
@@ -196,14 +216,6 @@
                                 <span class="pcoded-mtext">Overdue Tasks</span>
                             </a>
                         </li>
-                </ul>
-                <ul class="pcoded-item pcoded-left-item">
-                    <li class=" ">
-                        <a href="/overdueorderouts">
-                            <span class="pcoded-micon"><i class="feather icon-external-link"></i></span>
-                            <span class="pcoded-mtext">Overdue Order Outs</span>
-                        </a>
-                    </li>
                 </ul>
                 <ul class="pcoded-item pcoded-left-item">
                     <li class=" ">

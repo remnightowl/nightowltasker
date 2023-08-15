@@ -41,7 +41,7 @@
                                                 @php ($x = 0)
                                                 @foreach ($data as $orderout)
                                                     <tr>
-                                                        <td>{{ $orderout->loan_number }}</td>
+                                                        <td><a href="/loaninfo/{{ $orderout->loan_number}}">{{ $orderout->loan_number }}</a></td>
                                                         <td>{{ $orderout->branch_name }}</td>
                                                         <td>{{ $orderout->orderouts_name }}</td>
                                                         <td>{{ $orderout->borrower }}</td> 
