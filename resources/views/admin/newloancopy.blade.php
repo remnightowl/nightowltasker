@@ -31,7 +31,7 @@
                                             </ul>
                                         </div>
                                     @endif
-                                    <form action="/addloan" method="POST">
+                                    <form action="/addloantest" method="POST">
                                         @csrf
                                         <div class="form-group row">
                                             <label class="col-lg-2 col-md-2 col-sm-12 col-form-label">Loan Number</label>
@@ -184,9 +184,23 @@
                                                     <div class="input-group">
                                                         <select name="orderout[]" class="form-control">
                                                             <option value="" disabled selected>Order outs</option>
-                                                            @foreach($orderoutlist as $list)
-                                                            <option value="{{$list->orderoutName}}">{{$list->orderoutName}}</option>
-                                                            @endforeach
+                                                            <option value="EOI">Completed</option>
+                                                            <option value="Master Insurance">Master Insurance</option>
+                                                            <option value="Flood Insurance">Flood Insurance</option>
+                                                            <option value="Mortgage Payoff">Mortgage Payoff</option>
+                                                            <option value="Collection Payoff">Collection Payoff</option>
+                                                            <option value="Credit Supplement">Credit Supplement</option>
+                                                            <option value="VVOE">VVOE</option>
+                                                            <option value="WVOE Borrower 1">WVOE Borrower 1</option>
+                                                            <option value="WVOE Borrower 2">WVOE Borrower 2</option>
+                                                            <option value="WVOE Borrower 3">WVOE Borrower 3</option>
+                                                            <option value="WVOE Co-borrower 1">WVOE Co-borrower 1</option>
+                                                            <option value="WVOE Co-borrower 2">WVOE Co-borrower 2</option>
+                                                            <option value="WVOE Co-borrower 3">WVOE Co-borrower 3</option>
+                                                            <option value="Tax Transcript">Tax Transcript</option>
+                                                            <option value="Pest Inspection">Pest Inspection</option>
+                                                            <option value="24 Payment-VOM">24 Payment-VOM</option>
+                                                            <option value="Title Docs">Title Docs</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -235,15 +249,15 @@
                                                         <i class="icofont icofont-plus"></i>
                                                     </button>
                                                 </div>
-                                            </div>
+                                                
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-5"></div>
                                             <div class="col-sm-7">
                                                 <button class="btn btn-md btn-success btn-round" style="padding: 10px 40px;" type="submit">Submit</button>
                                                 <button class="btn btn-md btn-danger btn-round" style="padding: 10px 40px;"><a href="/dashboard" style="color: white">Cancel</a></button>
-                                            </div>
                                         </div>
+                                    </div>
                                     </form>
                                 </div>
                             </div>

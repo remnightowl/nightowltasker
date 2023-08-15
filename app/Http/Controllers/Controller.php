@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Loans;
 use App\Models\OrderOuts;
 use App\Models\Tasks;
+use App\Models\OrderOuts_NameList;
 use Illuminate\Support\Carbon;
 
 use Illuminate\Support\Facades\Auth;
@@ -174,8 +175,9 @@ class Controller extends BaseController
         
         $tasks = Tasks::all();
         $orderouts = OrderOuts::all();
+        $orderoutlist = OrderOuts_NameList::all();
 
-        return view('admin.newloan', compact('branches','coordinators','requestors','tasks','orderouts'));
+        return view('admin.newloan', compact('branches','coordinators','requestors','tasks','orderouts','orderoutlist'));
 
 
     }
@@ -192,7 +194,7 @@ class Controller extends BaseController
         return response()->json($result);
     }
 
-    public function addloan (Request $data){
+    public function addloan (Request $data){    
 
         $data->validate([
             'loannumber' => 'required|unique:loans,loan_number',
@@ -230,28 +232,25 @@ class Controller extends BaseController
             }
         }
 
-        $orderOuts = ['eoi','master','flood','mortgage','collection','credit','vvoe','wvoeb1','wvoeb2','wvoeb3','wvoecb1','wvoecb2','wvoecb3','tax','pest','vom','titledocs'];
+        for($x = 0; $x < count($data['orderout']); $x++){
 
-        $orderOuts_names = ['EOI','Master Insurance','Flood Insurance','Mortgage Payoff','Collection Payoff','Credit Supplement','VVOE','WVOE Borrower 1','WVOE Borrower 2','WVOE Borrower 3','WVOE Co-borrower 1','WVOE Co-borrower 2','WVOE Co-borrower 3','Tax Transcript','Pest Inspection','24 Payment-VOM','Title Docs'];
+            if(!empty($data['first'][$x]) || !empty($data['second'][$x]) || !empty($data['first'][$x])){
 
-        for($i = 0; $i < count($orderOuts); $i++){
-
-            if(!empty($data[$orderOuts[$i].'first']) || !empty($data[$orderOuts[$i].'second']) || !empty($data[$orderOuts[$i].'third'])){
-                
                 $newOrderOut = ([
                     'loan' => $loan_id,
-                    'orderouts_name' => $orderOuts_names[$i],
-                    'first' => $data[$orderOuts[$i].'first'],
-                    'second' => $data[$orderOuts[$i].'second'],
-                    'third' => $data[$orderOuts[$i].'third'],
-                    'status' => $data[$orderOuts[$i].'status'],
-                    'remarks' => $data[$orderOuts[$i].'remarks']
+                    'orderouts_name' => $data['orderout'][$x],
+                    'first' => $data['first'][$x],
+                    'second' => $data['second'][$x],
+                    'third' => $data['third'][$x],
+                    'status' => $data['status'][$x],
+                    'remarks' => $data['remarks'][$x]
                 ]);
-
+    
                 OrderOuts::neworderout($newOrderOut);
             }
+            
+        
         }
-
 
         return redirect('/newloan')->with('message','Loan Successfully Added!');
     }
@@ -310,9 +309,36 @@ class Controller extends BaseController
 
         $tasks = Tasks::where('loan',$id)->get();
         $orderouts = OrderOuts::where('loan',$id)->get();
-
+        $orderoutlist = OrderOuts_NameList::all();
         
-        return view('admin.loaninfo', compact('loan','loancoordinators','requestors','branches','tasks','orderouts'));
+        return view('admin.loaninfo', compact('loan','loancoordinators','requestors','branches','tasks','orderouts','orderoutlist'));
+    }
+
+    public function loaninfo($id){
+
+        $loan = DB::table('loans')
+                    ->select('*')
+                    ->where('loan_number', '=', $id)
+                    ->first();
+
+        $branches = Branch::all();
+        $requestors = DB::table('user')
+                        ->select('*')
+                        ->where('branch', '=', $loan->branch)
+                        ->where('user_type', '=', 2)
+                        ->get();
+
+        $loancoordinators = DB::table('user')
+                        ->select('*')
+                        ->where('branch', '=', $loan->branch)
+                        ->where('user_type', '=', 1)
+                        ->get();
+
+        $tasks = Tasks::where('loan',$id)->get();
+        $orderouts = OrderOuts::where('loan',$id)->get();
+        $orderoutlist = OrderOuts_NameList::all();
+        
+        return view('admin.loaninfo', compact('loan','loancoordinators','requestors','branches','tasks','orderouts','orderoutlist'));
     }
 
     public function loanedit(Request $data){
@@ -354,26 +380,23 @@ class Controller extends BaseController
             }
         }
 
-        $orderOuts = ['eoi','master','flood','mortgage','collection','credit','vvoe','wvoeb1','wvoeb2','wvoeb3','wvoecb1','wvoecb2','wvoecb3','tax','pest','vom','titledocs'];
+        for($x = 0; $x < count($data['orderout']); $x++){
 
-        $orderOuts_names = ['EOI','Master Insurance','Flood Insurance','Mortgage Payoff','Collection Payoff','Credit Supplement','VVOE','WVOE Borrower 1','WVOE Borrower 2','WVOE Borrower 3','WVOE Co-borrower 1','WVOE Co-borrower 2','WVOE Co-borrower 3','Tax Transcript','Pest Inspection','24 Payment-VOM','Title Docs'];
+            if(!empty($data['first'][$x]) || !empty($data['second'][$x]) || !empty($data['first'][$x])){
 
-        for($i = 0; $i < count($orderOuts); $i++){
-
-            if(!empty($data[$orderOuts[$i].'first']) || !empty($data[$orderOuts[$i].'second']) || !empty($data[$orderOuts[$i].'third'])){
-                
                 $newOrderOut = ([
                     'loan' => $loan_id,
-                    'orderouts_name' => $orderOuts_names[$i],
-                    'first' => $data[$orderOuts[$i].'first'],
-                    'second' => $data[$orderOuts[$i].'second'],
-                    'third' => $data[$orderOuts[$i].'third'],
-                    'status' => $data[$orderOuts[$i].'status'],
-                    'remarks' => $data[$orderOuts[$i].'remarks']
+                    'orderouts_name' => $data['orderout'][$x],
+                    'first' => $data['first'][$x],
+                    'second' => $data['second'][$x],
+                    'third' => $data['third'][$x],
+                    'status' => $data['status'][$x],
+                    'remarks' => $data['remarks'][$x]
                 ]);
-
+    
                 OrderOuts::updateorcreateorderout($newOrderOut);
             }
+        
         }
 
 
@@ -531,6 +554,7 @@ class Controller extends BaseController
                         "
                     )
                     ->where('status', '!=', 'Completed')
+                    ->where('status', '!=', 'Cancelled')
                     ->get();
 
         $users = User::all();
@@ -1050,9 +1074,73 @@ class Controller extends BaseController
         return response()->json($data);
     }
 
+    public function orderoutnamelist(){
+
+        $data = OrderOuts_Namelist::all();
+
+        return view('admin.orderoutslist', compact('data'));
+
+    }
+
+    public function addneworderoutlist(Request $item){
+
+        OrderOuts_NameList::insertOrderOutType($item);
+
+        $data = OrderOuts_Namelist::all();
+
+        return view('admin.orderoutslist', compact('data'));
+    }
+
+    public function getorderoutname(Request $data){
+
+        $orderOutType = OrderOuts_NameList::where('namelistId','=',$data['id'])->first();
+
+        return response()->json($orderOutType);
+    }
+
+    public function editorderoutlist(Request $item){
+
+        OrderOuts_NameList::editOrderOutType($item);
+
+        $data = OrderOuts_Namelist::all();
+
+        return view('admin.orderoutslist', compact('data'));
+
+    }
+    
+    public function deleteorderouttype(Request $data){
+
+        OrderOuts_Namelist::DeleteOrderOutType($data);
+        return response()->json($data);
+    }
+
     public function test(){
         
-        dd(date("Y-m-d\\TH:i:s"));
+        return view('admin.test');
+    }
+
+    public function test1(){
+
+        $branches = Branch::all();
+
+        $coordinators = DB::table('user')
+                        ->select('*')
+                        ->where('user_type', '=', 1)
+                        ->get();
+        
+        $requestors = DB::table('user')
+                        ->select('*')
+                        ->where('user_type', '=', 2)
+                        ->get();
+        
+        $tasks = Tasks::all();
+        $orderouts = OrderOuts::all();
+
+        return view('admin.newloancopy', compact('branches','coordinators','requestors','tasks','orderouts'));
+    }
+
+    public function addloantest(Request $data){
+        dd($data);
     }
 
    

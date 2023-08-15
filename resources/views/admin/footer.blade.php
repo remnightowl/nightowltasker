@@ -23,6 +23,12 @@
 <script src="{{asset('admin/assets/pages/filer/custom-filer.js')}}" type="text/javascript"></script>
 <script src="{{asset('admin/assets/pages/filer/jquery.fileuploads.init.js')}}" type="text/javascript"></script>
 
+<!-- j-pro -->
+<script src="{{asset('admin/assets/pages/j-pro/js/jquery.ui.min.js')}}"></script>
+<script src="{{asset('admin/assets/pages/j-pro/js/jquery.maskedinput.min.js')}}"></script>
+<script src="{{asset('admin/assets/pages/j-pro/js/jquery-cloneya.min.js')}}"></script>
+<script src="{{asset('admin/assets/pages/j-pro/js/custom/cloned-form.js')}}"></script>
+
 <!-- data-table js -->
 <script src="{{asset('admin/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('admin/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script> 

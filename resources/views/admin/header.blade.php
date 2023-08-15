@@ -32,7 +32,11 @@
     <!-- Style.css -->
     <link rel="stylesheet" type="text/css" href="{{asset('admin/assets/css/style.css')}}"> 
     <link rel="stylesheet" type="text/css" href="{{asset('admin/bower_components/chartist/css/chartist.css')}}"> 
-    <link rel="stylesheet" type="text/css" href="{{asset('admin/assets/css/jquery.mCustomScrollbar.css')}}"> 
+    <link rel="stylesheet" type="text/css" href="{{asset('admin/assets/css/jquery.mCustomScrollbar.css')}}">
+    <!-- J-Pro -->
+    <link rel="stylesheet" type="text/css" href="{{asset('admin/assets/pages/j-pro/css/j-forms.css')}}"> 
+    <link rel="stylesheet" type="text/css" href="{{asset('admin/assets/pages/j-pro/css/font-awesome.min.css')}}"> 
+    <link rel="stylesheet" type="text/css" href="{{asset('admin/assets/pages/j-pro/css/demo.css')}}"> 
     <!-- Data Table Css -->
     <link rel="stylesheet" type="text/css" href="{{asset('admin/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}"> 
     <link rel="stylesheet" type="text/css" href="{{asset('admin/assets/pages/data-table/css/buttons.dataTables.min.css')}}"> 
