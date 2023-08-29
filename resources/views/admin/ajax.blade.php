@@ -409,6 +409,63 @@ $.ajaxSetup({
         });  
     })
 
+    $('.tasknameedit').click(function(e){
+
+        var id = $(this).attr("id");
+
+        $.ajax({
+            url: '/gettaskname',
+            type: 'POST',
+            data: {
+                id: id,
+            },
+            dataType: 'JSON',
+            success: function(result){
+                $('#tasklistedit').val(result.taskName);
+                $('#tasklistId').val(id);
+            }
+        });
+    });
+
+    $('.tasknamedelete').click(function(e){
+        e.preventDefault();
+
+        var id = $(this).attr("id");
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "you want to delete this task type?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!'
+        }).then((willDelete) => {
+            if (willDelete.isConfirmed) {
+                Swal.fire(
+                    'Deleted!',
+                    'Task type has been deleted.',
+                    'success'
+                ).then((confirmdelete) => {
+                    if(confirmdelete){
+                        $.ajax({
+                            url: '/deletetasktype',
+                            type: 'POST',
+                            data: {
+                                id: id
+                            },
+                            dataType: 'HTML',
+                            success: function(response){
+                                window.location.reload();
+                            }
+                        });
+                    }
+                });
+                
+            }
+        });  
+    })
+
     
 
 </script>

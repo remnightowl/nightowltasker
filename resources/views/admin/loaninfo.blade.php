@@ -267,9 +267,9 @@
                                                     <div class="col-lg-2 col-md-12 col-sm-12">
                                                         <div class="input-group">
                                                             <select name="orderout[]" class="form-control">
-                                                                @foreach($orderoutlist as $list)
-                                                                <option value="{{$list->orderoutName}}" @if($list->orderoutName == $orderout->orderouts_name) selected @endif>{{$list->orderoutName}}</option>
-                                                                @endforeach
+                                                                @for($x = 0; $x < count($orderslist); $x++)
+                                                                    <option value="{{$orderslist[$x]}}" @if($orderslist[$x] == $orderout->orderouts_name) selected @endif>{{$orderslist[$x]}}</option>
+                                                                @endfor
                                                             </select>
                                                         </div>
                                                     </div>
@@ -294,7 +294,7 @@
                                                     <div class="col-lg-2 col-md-12 col-sm-12">
                                                         <div class="input-group">
                                                             <select name="status[]" class="form-control">
-                                                                <option value="Completed" @if($orderout->status == 'Completed') selected @endif>Completed</option>
+                                                                <option value="Completed" @if($orderout->status == 'Completed') selected @endif>Completed - {{date('F j, Y');}}</option>
                                                                 <option value="Ordered" @if($orderout->status == 'Ordered') selected @endif>Ordered</option>
                                                                 <option value="Pending" @if($orderout->status == 'Pending') selected @endif>Pending</option>
                                                                 <option value="Waiting on Processor" @if($orderout->status == 'Waiting on Processor') selected @endif>Waiting on Processor</option>
@@ -326,9 +326,9 @@
                                                     <div class="input-group">
                                                         <select name="orderout[]" class="form-control">
                                                             <option value="" disabled selected>Order outs</option>
-                                                            @foreach($orderoutlist as $list)
-                                                            <option value="{{$list->orderoutName}}">{{$list->orderoutName}}</option>
-                                                            @endforeach
+                                                            @for($x = 0; $x < count($orderslist); $x++)
+                                                            <option value="{{$orderslist[$x]}}">{{$orderslist[$x]}}</option>
+                                                            @endfor
                                                         </select>
                                                     </div>
                                                 </div>
@@ -354,7 +354,7 @@
                                                     <div class="input-group">
                                                         <select name="status[]" class="form-control">
                                                             <option value="" disabled selected>Status</option>
-                                                            <option value="Completed">Completed</option>
+                                                            <option value="Completed">Completed - {{date('F j, Y');}}</option>
                                                             <option value="Ordered">Ordered</option>
                                                             <option value="Pending">Pending</option>
                                                             <option value="Waiting on Processor">Waiting on Processor</option>

@@ -14,6 +14,7 @@ use App\Models\Loans;
 use App\Models\OrderOuts;
 use App\Models\Tasks;
 use App\Models\OrderOuts_NameList;
+use App\Models\Tasks_NameList;
 use Illuminate\Support\Carbon;
 
 use Illuminate\Support\Facades\Auth;
@@ -176,8 +177,16 @@ class Controller extends BaseController
         $tasks = Tasks::all();
         $orderouts = OrderOuts::all();
         $orderoutlist = OrderOuts_NameList::all();
+        $orderslist = [];
 
-        return view('admin.newloan', compact('branches','coordinators','requestors','tasks','orderouts','orderoutlist'));
+        foreach($orderoutlist as $list){
+            array_push($orderslist,$list->orderoutName);
+        }
+
+        sort($orderslist);
+
+
+        return view('admin.newloan', compact('branches','coordinators','requestors','tasks','orderouts','orderslist'));
 
 
     }
@@ -310,8 +319,16 @@ class Controller extends BaseController
         $tasks = Tasks::where('loan',$id)->get();
         $orderouts = OrderOuts::where('loan',$id)->get();
         $orderoutlist = OrderOuts_NameList::all();
+
+        $orderslist = [];
+
+        foreach($orderoutlist as $list){
+            array_push($orderslist,$list->orderoutName);
+        }
+
+        sort($orderslist);
         
-        return view('admin.loaninfo', compact('loan','loancoordinators','requestors','branches','tasks','orderouts','orderoutlist'));
+        return view('admin.loaninfo', compact('loan','loancoordinators','requestors','branches','tasks','orderouts','orderslist'));
     }
 
     public function loaninfo($id){
@@ -1031,7 +1048,6 @@ class Controller extends BaseController
                         END
                         "
                     )
-                    ->where('status', '!=', 'Completed')
                     ->get();
 
         $users = User::all();
@@ -1111,6 +1127,47 @@ class Controller extends BaseController
     public function deleteorderouttype(Request $data){
 
         OrderOuts_Namelist::DeleteOrderOutType($data);
+        return response()->json($data);
+    }
+
+    public function tasknamelist(){
+
+        $data = Tasks_NameList::all();
+
+        return view('admin.taskslist', compact('data'));
+
+    }
+
+    public function addnewtasklist(Request $item){
+
+        Tasks_NameList::insertTaskType($item);
+
+        $data = Tasks_NameList::all();
+
+        return redirect('/tasknamelist')->with('message','Task Type Successfully Added!');
+
+    }
+
+    public function gettaskname(Request $data){
+
+        $taskType = Tasks_NameList::where('tasklistId','=',$data['id'])->first();
+
+        return response()->json($taskType);
+    }
+
+    public function edittasklist(Request $item){
+
+        Tasks_NameList::editTaskType($item);
+
+        $data = Tasks_NameList::all();
+
+        return view('admin.taskslist', compact('data'));
+
+    }
+
+    public function deletetasktype(Request $data){
+
+        Tasks_NameList::DeleteTaskType($data);
         return response()->json($data);
     }
 
