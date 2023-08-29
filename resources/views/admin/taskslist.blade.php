@@ -10,13 +10,13 @@
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
-                                    <h4>Order Outs List</h4>
+                                    <h4>Task Names List</h4>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div>
-                                <button type="button" class="btn btn-md btn-success float-right" data-toggle="modal" data-target="#orderoutnew"><i class="feather icon-plus"></i>Add new type of order out</button>
+                                <button type="button" class="btn btn-md btn-success float-right" data-toggle="modal" data-target="#tasknew"><i class="feather icon-plus"></i>Add new type of Task</button>
                             </div>
                         </div>
                     </div>
@@ -39,14 +39,14 @@
                                             <tbody>
                                                 @foreach ($data as $list)
                                                     <tr>
-                                                        <td> {{ $list->namelistId }} </td>
-                                                        <td> {{ $list->orderoutName}} </td>
+                                                        <td> {{ $list->tasklistId }} </td>
+                                                        <td> {{ $list->taskName}} </td>
                                                         <td> {{ date('F d, Y', strtotime($list->date_created)) }} </td>
                                                         <td>
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <button class="btn btn-md btn-success btn-round orderoutnameedit" data-toggle="modal" data-target="#editorderoutname" id="{{$list->namelistId}}"><i class="feather icon-edit"></i>Edit</button>
-                                                                    <button class="btn btn-md btn-danger btn-round orderoutnamedelete" id="{{$list->namelistId}}"><i class="feather icon-edit"></i>Delete</button>
+                                                                    <button class="btn btn-md btn-success btn-round tasknameedit" data-toggle="modal" data-target="#edittaskname" id="{{$list->tasklistId}}"><i class="feather icon-edit"></i>Edit</button>
+                                                                    <button class="btn btn-md btn-danger btn-round tasknamedelete" id="{{$list->tasklistId}}"><i class="feather icon-edit"></i>Delete</button>
                                                                 </div>     
                                                             </div>
                                                         </td>
@@ -59,22 +59,22 @@
                             </div>     
                         </div>
                     </div>
-                    <div class="modal fade" id="orderoutnew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="tasknew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">New type of Order Out</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">New Type of Task</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="POST" action="/addneworderoutlist">
+                                <form method="POST" action="/addnewtasklist">
                                     <div class="modal-body">
                                         @csrf
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Name</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="OrderOutName" class="form-control">
+                                                <input type="text" name="taskName" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -86,23 +86,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal fade" id="editorderoutname" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="edittaskname" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Edit Order Out Name</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Edit Task Type</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="POST" action="/editorderoutlist">
+                                <form method="POST" action="/edittasklist">
                                     <div class="modal-body">
                                         @csrf
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Name</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="OrderOutName" id="orderoutlistedit" class="form-control">
-                                                <input type="hidden" name="orderoutnameID" id="orderoutnameID">
+                                                <input type="text" name="taskName" id="tasklistedit" class="form-control">
+                                                <input type="hidden" name="tasklistId" id="tasklistId">
                                             </div>
                                         </div>
                                     </div>

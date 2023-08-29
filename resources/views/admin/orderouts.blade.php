@@ -68,7 +68,7 @@
                                                         <td>
                                                             <select name="select" class="form-control form-control-inverse orderoutstatus" style="width: 150px; height: 20px;" id={{$orderout->id}}>
                                                                 <option value="" disabled selected>Please select status here</option>
-                                                                <option value="Completed" @if($orderout->status == 'Completed') selected @endif>Completed</option>
+                                                                <option value="Completed" @if($orderout->status == 'Completed') selected @endif>Completed - {{date('F j, Y');}}</option>
                                                                 <option value="Ordered" @if($orderout->status == 'Ordered') selected @endif>Ordered</option>
                                                                 <option value="Pending" @if($orderout->status == 'Pending') selected @endif>Pending</option>
                                                                 <option value="Waiting on Processor" @if($orderout->status == 'Waiting on Processor') selected @endif>Waiting on Processor</option>

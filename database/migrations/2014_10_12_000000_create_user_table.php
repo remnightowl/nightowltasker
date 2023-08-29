@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('branch');
             $table->integer('user_type');
             $table->integer('status')->default('1');
-            $table->integer('avatar')->nullable();
+            $table->string('avatar')->nullable();
             $table->timestamp('date_created')->useCurrent();
         });
     }

@@ -39,6 +39,7 @@ Route::get('/loanlist', [Controller::class, 'loanlist'])->middleware('auth');
 Route::get('/tasks', [Controller::class, 'tasks'])->middleware('auth');
 Route::get('/orderouts', [Controller::class, 'orderouts'])->middleware('auth');
 Route::get('/orderoutnamelist', [Controller::class, 'orderoutnamelist'])->middleware('auth');
+Route::get('/tasknamelist', [Controller::class, 'tasknamelist'])->middleware('auth');
 Route::post('addbranch', [Controller::class,'addbranch'])->middleware('auth');
 Route::post('editbranch', [Controller::class,'editbranch'])->middleware('auth');
 Route::post('edituser', [Controller::class,'edituser'])->middleware('auth');
@@ -51,6 +52,7 @@ Route::post('addloan', [Controller::class,'addloan'])->middleware('auth');
 Route::post('deleteuser', [Controller::class,'deleteuser'])->middleware('auth');
 Route::post('deletebranch', [Controller::class,'deletebranch'])->middleware('auth');
 Route::post('deleteorderouttype', [Controller::class,'deleteorderouttype'])->middleware('auth');
+Route::post('/deletetasktype', [Controller::class,'deletetasktype'])->middleware('auth');
 Route::post('/taskcomplete', [Controller::class,'taskcomplete'])->middleware('auth');
 Route::post('/orderoutchangestatus', [Controller::class,'orderoutchangestatus'])->middleware('auth');
 Route::post('/login', [Controller::class,'login']);
@@ -61,7 +63,11 @@ Route::post('/addneworderoutlist', [Controller::class,'addneworderoutlist']);
 Route::post('/branchandtasksmonthly', [Controller::class,'branchandtasksmonthly']);
 Route::post('/branchandorderoutsmonthly', [Controller::class,'branchandorderoutsmonthly']);
 Route::post('/getorderoutname', [Controller::class,'getorderoutname']);
+Route::post('/gettaskname', [Controller::class,'gettaskname']);
 Route::post('/editorderoutlist', [Controller::class,'editorderoutlist']);
+Route::post('/edittasklist', [Controller::class,'edittasklist']);
+Route::post('/addnewtasklist', [Controller::class,'addnewtasklist']);
+
 
 Route::get('/test', [Controller::class,'test']);
 Route::get('/test1', [Controller::class,'test1']);

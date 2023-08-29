@@ -71,6 +71,12 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
+                                            <label class="col-lg-2 col-md-2 col-sm-12 col-form-label">Date Created</label>
+                                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                                <input type="text" name="borrower" readonly value="{{date('F j, Y');}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-group row">
                                                     <label class="col-lg-2 col-md-2 col-sm-2 col-form-label">Scrub</label>
@@ -184,9 +190,9 @@
                                                     <div class="input-group">
                                                         <select name="orderout[]" class="form-control">
                                                             <option value="" disabled selected>Order outs</option>
-                                                            @foreach($orderoutlist as $list)
-                                                            <option value="{{$list->orderoutName}}">{{$list->orderoutName}}</option>
-                                                            @endforeach
+                                                            @for($x = 0; $x < count($orderslist); $x++)
+                                                            <option value="{{$orderslist[$x]}}">{{$orderslist[$x]}}</option>
+                                                            @endfor
                                                         </select>
                                                     </div>
                                                 </div>
@@ -212,7 +218,7 @@
                                                     <div class="input-group">
                                                         <select name="status[]" class="form-control">
                                                             <option value="" disabled selected>Status</option>
-                                                            <option value="Completed">Completed</option>
+                                                            <option value="Completed">Completed - {{date('F j, Y');}}</option>
                                                             <option value="Ordered">Ordered</option>
                                                             <option value="Pending">Pending</option>
                                                             <option value="Waiting on Processor">Waiting on Processor</option>

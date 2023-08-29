@@ -202,20 +202,32 @@
                     </li>
                 </ul>
                 <ul class="pcoded-item pcoded-left-item">
-                    <li class=" ">
-                        <a href="/tasks">
-                            <span class="pcoded-micon"><i class="feather icon-airplay"></i></span>
+                    <li class="pcoded-hasmenu active pcoded">
+                        <a href="javascript:void(0)">
+                            <span class="pcoded-micon"><i class="feather icon-airplay"></i> </span>
                             <span class="pcoded-mtext">Tasks</span>
                         </a>
+                        <ul class="pcoded-submenu">
+                            <li class=" ">
+                                <a href="/tasknamelist">
+                                    <i class="feather icon-file-plus" style="margin-right:10px;"></i>
+                                    <span class="pcoded"> Tasks name list</span>
+                                </a>
+                            </li>
+                            <li class=" ">
+                                <a href="/tasks">
+                                    <i class="feather icon-file-text" style="margin-right:10px;"></i>
+                                    <span class="pcoded"> List of Tasks</span>
+                                </a>
+                            </li>
+                            <li class=" ">
+                                <a href="/overduetasks">
+                                    <i class="feather icon-external-link" style="margin-right:10px;"></i>
+                                    <span class="pcoded"> Overdue Tasks</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                </ul>
-                <ul class="pcoded-item pcoded-left-item">
-                        <li class=" ">
-                            <a href="/overduetasks">
-                                <span class="pcoded-micon"><i class="feather icon-clock"></i></span>
-                                <span class="pcoded-mtext">Overdue Tasks</span>
-                            </a>
-                        </li>
                 </ul>
                 <ul class="pcoded-item pcoded-left-item">
                     <li class=" ">
