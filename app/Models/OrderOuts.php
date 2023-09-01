@@ -29,7 +29,8 @@ class OrderOuts extends Model
                     'second' => $neworderout['second'],
                     'third' => $neworderout['third'],
                     'status' => $neworderout['status'],
-                    'remarks' => $neworderout['remarks']
+                    'remarks' => $neworderout['remarks'],
+                    
             ]);
     }
 

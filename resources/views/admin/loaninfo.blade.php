@@ -81,6 +81,12 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
+                                            <label class="col-lg-2 col-md-2 col-sm-12 col-form-label">Date Created</label>
+                                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                                <input type="text" readonly value="{{date('F j, Y, g:i a',strtotime($loan->date_created))}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
                                                     @php
@@ -260,6 +266,186 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group row">
+                                                    @php
+                                                       $start = ""; 
+                                                       $end = ""; 
+                                                    @endphp
+                                                    @foreach ($tasks as $task)
+                                                        @if ($task->task_name == "COC/CIC Disclosure")
+                                                            @php
+                                                                $start = $task->start;
+                                                                $end = $task->end;
+                                                            @endphp
+                                                        @endif
+                                                    @endforeach
+                                                    <label class="col-lg-2 col-md-8 col-sm-2 col-form-label">COC/CIC Disclosure</label>
+                                                    <div class="col-lg-2 col-md-8 col-sm-10">
+                                                        <button class="btn btn-md btn-success btn-round" id="cocdisclosurestart" style="padding: 10px 40px;" type="button">START</button>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-12 col-sm-10">
+                                                        <input type="datetime-local" name="cocdisclosurestart" id="datetimecocdisclosurestart" value="{{ $start }}" class="form-control">
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-8 col-sm-10">
+                                                        <button class="btn btn-md btn-danger btn-round" id="cocdisclosureend" style="padding: 10px 40px;" type="button">END</button>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-12 col-sm-10">
+                                                        <input type="datetime-local" name="cocdisclosureend" id="datetimecocdisclosureend" value="{{ $end }}" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group row">
+                                                    @php
+                                                       $start = ""; 
+                                                       $end = ""; 
+                                                    @endphp
+                                                    @foreach ($tasks as $task)
+                                                        @if ($task->task_name == "Conditional Review")
+                                                            @php
+                                                                $start = $task->start;
+                                                                $end = $task->end;
+                                                            @endphp
+                                                        @endif
+                                                    @endforeach
+                                                    <label class="col-lg-2 col-md-8 col-sm-2 col-form-label">Conditional Review</label>
+                                                    <div class="col-lg-2 col-md-8 col-sm-10">
+                                                        <button class="btn btn-md btn-success btn-round" id="conditionalreviewstart" style="padding: 10px 40px;" type="button">START</button>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-12 col-sm-10">
+                                                        <input type="datetime-local" name="conditionalreviewstart" id="datetimeconditionalreviewstart" value="{{ $start }}" class="form-control">
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-8 col-sm-10">
+                                                        <button class="btn btn-md btn-danger btn-round" id="conditionalreviewend" style="padding: 10px 40px;" type="button">END</button>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-12 col-sm-10">
+                                                        <input type="datetime-local" name="conditionalreviewend" id="datetimeconditionalreviewend" value="{{ $end }}" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group row">
+                                                    @php
+                                                       $start = ""; 
+                                                       $end = ""; 
+                                                    @endphp
+                                                    @foreach ($tasks as $task)
+                                                        @if ($task->task_name == "Closing Disclosure")
+                                                            @php
+                                                                $start = $task->start;
+                                                                $end = $task->end;
+                                                            @endphp
+                                                        @endif
+                                                    @endforeach
+                                                    <label class="col-lg-2 col-md-8 col-sm-2 col-form-label">Closing Disclosure</label>
+                                                    <div class="col-lg-2 col-md-8 col-sm-10">
+                                                        <button class="btn btn-md btn-success btn-round" id="closingdisclosurestart" style="padding: 10px 40px;" type="button">START</button>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-12 col-sm-10">
+                                                        <input type="datetime-local" name="closingdisclosurestart" id="datetimeclosingdisclosurestart" value="{{ $start }}" class="form-control">
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-8 col-sm-10">
+                                                        <button class="btn btn-md btn-danger btn-round" id="closingdisclosureend" style="padding: 10px 40px;" type="button">END</button>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-12 col-sm-10">
+                                                        <input type="datetime-local" name="closingdisclosureend" id="datetimeclosingdisclosureend" value="{{ $end }}" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group row">
+                                                    @php
+                                                       $start = ""; 
+                                                       $end = ""; 
+                                                    @endphp
+                                                    @foreach ($tasks as $task)
+                                                        @if ($task->task_name == "In Escrow Review")
+                                                            @php
+                                                                $start = $task->start;
+                                                                $end = $task->end;
+                                                            @endphp
+                                                        @endif
+                                                    @endforeach
+                                                    <label class="col-lg-2 col-md-8 col-sm-2 col-form-label">In Escrow Review</label>
+                                                    <div class="col-lg-2 col-md-8 col-sm-10">
+                                                        <button class="btn btn-md btn-success btn-round" id="inescrowreviewstart" style="padding: 10px 40px;" type="button">START</button>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-12 col-sm-10">
+                                                        <input type="datetime-local" name="inescrowreviewstart" id="datetimeinescrowreviewstart" value="{{ $start }}" class="form-control">
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-8 col-sm-10">
+                                                        <button class="btn btn-md btn-danger btn-round" id="inescrowreviewend" style="padding: 10px 40px;" type="button">END</button>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-12 col-sm-10">
+                                                        <input type="datetime-local" name="inescrowreviewend" id="datetimeinescrowreviewend" value="{{ $end }}" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group row">
+                                                    @php
+                                                       $start = ""; 
+                                                       $end = ""; 
+                                                    @endphp
+                                                    @foreach ($tasks as $task)
+                                                        @if ($task->task_name == "Pre-approval Review")
+                                                            @php
+                                                                $start = $task->start;
+                                                                $end = $task->end;
+                                                            @endphp
+                                                        @endif
+                                                    @endforeach
+                                                    <label class="col-lg-2 col-md-8 col-sm-2 col-form-label">Pre-approval Review</label>
+                                                    <div class="col-lg-2 col-md-8 col-sm-10">
+                                                        <button class="btn btn-md btn-success btn-round" id="preapprovalreviewstart" style="padding: 10px 40px;" type="button">START</button>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-12 col-sm-10">
+                                                        <input type="datetime-local" name="preapprovalreviewstart" id="datetimepreapprovalreviewstart" value="{{ $start }}" class="form-control">
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-8 col-sm-10">
+                                                        <button class="btn btn-md btn-danger btn-round" id="preapprovalreviewend" style="padding: 10px 40px;" type="button">END</button>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-12 col-sm-10">
+                                                        <input type="datetime-local" name="preapprovalreviewend" id="datetimepreapprovalreviewend" value="{{ $end }}" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group row">
+                                                    @php
+                                                       $start = ""; 
+                                                       $end = ""; 
+                                                    @endphp
+                                                    @foreach ($tasks as $task)
+                                                        @if ($task->task_name == "HTH Setup")
+                                                            @php
+                                                                $start = $task->start;
+                                                                $end = $task->end;
+                                                            @endphp
+                                                        @endif
+                                                    @endforeach
+                                                    <label class="col-lg-2 col-md-8 col-sm-2 col-form-label">HTH Setup</label>
+                                                    <div class="col-lg-2 col-md-8 col-sm-10">
+                                                        <button class="btn btn-md btn-success btn-round" id="hthsetupstart" style="padding: 10px 40px;" type="button">START</button>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-12 col-sm-10">
+                                                        <input type="datetime-local" name="hthsetupstart" id="datetimehthsetupstart" value="{{ $start }}" class="form-control">
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-8 col-sm-10">
+                                                        <button class="btn btn-md btn-danger btn-round" id="hthsetupend" style="padding: 10px 40px;" type="button">END</button>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-12 col-sm-10">
+                                                        <input type="datetime-local" name="hthsetupend" id="datetimehthsetupend" value="{{ $end }}" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="clone-rightside-btn-1">
                                             @if(!empty($orderouts))
                                                 @foreach ($orderouts as $orderout)
@@ -294,7 +480,7 @@
                                                     <div class="col-lg-2 col-md-12 col-sm-12">
                                                         <div class="input-group">
                                                             <select name="status[]" class="form-control">
-                                                                <option value="Completed" @if($orderout->status == 'Completed') selected @endif>Completed - {{date('F j, Y');}}</option>
+                                                                <option value="Completed" @if($orderout->status == 'Completed') selected @endif>Completed - {{date('F j, Y, g:i a')}}</option>
                                                                 <option value="Ordered" @if($orderout->status == 'Ordered') selected @endif>Ordered</option>
                                                                 <option value="Pending" @if($orderout->status == 'Pending') selected @endif>Pending</option>
                                                                 <option value="Waiting on Processor" @if($orderout->status == 'Waiting on Processor') selected @endif>Waiting on Processor</option>
@@ -327,7 +513,23 @@
                                                         <select name="orderout[]" class="form-control">
                                                             <option value="" disabled selected>Order outs</option>
                                                             @for($x = 0; $x < count($orderslist); $x++)
-                                                            <option value="{{$orderslist[$x]}}">{{$orderslist[$x]}}</option>
+                                                            <option value="
+                                                                @php
+                                                                    if($orderslist[$x] == 'Completed'){
+                                                                        echo $orderslist[$x].' - '.date('F j, Y, g:i a');
+                                                                    }
+                                                                    else{
+                                                                        echo $orderslist[$x];
+                                                                    }
+                                                                @endphp
+                                                                ">@php
+                                                                if($orderslist[$x] == 'Completed'){
+                                                                    echo $orderslist[$x].' - '.date('F j, Y, g:i a');
+                                                                }
+                                                                else{
+                                                                    echo $orderslist[$x];
+                                                                }
+                                                            @endphp</option>
                                                             @endfor
                                                         </select>
                                                     </div>
@@ -354,7 +556,7 @@
                                                     <div class="input-group">
                                                         <select name="status[]" class="form-control">
                                                             <option value="" disabled selected>Status</option>
-                                                            <option value="Completed">Completed - {{date('F j, Y');}}</option>
+                                                            <option value="Completed">Completed - {{date('F j, Y, g:i a');}}</option>
                                                             <option value="Ordered">Ordered</option>
                                                             <option value="Pending">Pending</option>
                                                             <option value="Waiting on Processor">Waiting on Processor</option>

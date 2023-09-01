@@ -34,7 +34,8 @@ class Loans extends Model
                         'requestor' => $data['requestor'],
                         'loan_coordinator' => implode(',',$data['coordinator']),
                         'borrower' => $data['borrower'],
-                        'remarks' => $data['loanremarks']
+                        'remarks' => $data['loanremarks'],
+                        'date_created' => date('Y-m-j G:i:s')
                     ]);
 
         return $loan_id;

@@ -167,6 +167,114 @@ $.ajaxSetup({
 
     });
     //END!!!
+
+    //START!!! When Start button for FasTrack Disclosure was clicked
+    $('#cocdisclosurestart').click(function(e){
+        e.preventDefault();
+
+        $('#datetimecocdisclosurestart').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When End button for FasTrack Disclosure was clicked
+    $('#cocdisclosureend').click(function(e){
+        e.preventDefault();
+
+        $('#datetimecocdisclosureend').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When Start button for FasTrack Disclosure was clicked
+    $('#conditionalreviewstart').click(function(e){
+        e.preventDefault();
+
+        $('#datetimeconditionalreviewstart').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When End button for FasTrack Disclosure was clicked
+    $('#conditionalreviewend').click(function(e){
+        e.preventDefault();
+
+        $('#datetimeconditionalreviewend').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When Start button for FasTrack Disclosure was clicked
+    $('#closingdisclosurestart').click(function(e){
+        e.preventDefault();
+
+        $('#datetimeclosingdisclosurestart').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When End button for FasTrack Disclosure was clicked
+    $('#closingdisclosureend').click(function(e){
+        e.preventDefault();
+
+        $('#datetimeclosingdisclosureend').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When Start button for FasTrack Disclosure was clicked
+    $('#inescrowreviewstart').click(function(e){
+        e.preventDefault();
+
+        $('#datetimeinescrowreviewstart').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When End button for FasTrack Disclosure was clicked
+    $('#inescrowreviewend').click(function(e){
+        e.preventDefault();
+
+        $('#datetimeinescrowreviewend').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When Start button for FasTrack Disclosure was clicked
+    $('#preapprovalreviewstart').click(function(e){
+        e.preventDefault();
+
+        $('#datetimepreapprovalreviewstart').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When End button for FasTrack Disclosure was clicked
+    $('#preapprovalreviewend').click(function(e){
+        e.preventDefault();
+
+        $('#datetimepreapprovalreviewend').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When Start button for FasTrack Disclosure was clicked
+    $('#hthsetupstart').click(function(e){
+        e.preventDefault();
+
+        $('#datetimehthsetupstart').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When End button for FasTrack Disclosure was clicked
+    $('#hthsetupend').click(function(e){
+        e.preventDefault();
+
+        $('#datetimehthsetupend').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
     
     $('#editloanbtn').click(function(e){
         

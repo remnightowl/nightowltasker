@@ -223,8 +223,8 @@ class Controller extends BaseController
 
         $loan_id = Loans::AddLoan($data);
 
-        $tasks = ['scrub','filesetup','disclosure','appraisal','fastrackdisclosure','fastracksubmission'];
-        $tasksNames = ['Scrub', 'File Setup' , 'Disclosure', 'Appraisal', 'FasTrack Disclosure', 'FasTrack Submission'];
+        $tasks = ['scrub','filesetup','disclosure','appraisal','fastrackdisclosure','fastracksubmission','cocdisclosure','conditionalreview','closingdisclosure','inescrowreview','preapprovalreview','hthsetup'];
+        $tasksNames = ['Scrub', 'File Setup' , 'Disclosure', 'Appraisal', 'FasTrack Disclosure', 'FasTrack Submission','COC/CIC Disclosure','Conditional Review','Closing Disclosure','In Escrow Review','Pre-approval Review','HTH Setup'];
 
         for($x = 0; $x < count($tasks); $x++){
 
@@ -241,25 +241,26 @@ class Controller extends BaseController
             }
         }
 
-        for($x = 0; $x < count($data['orderout']); $x++){
+        if(!empty($data['orderout'])){
+            for($x = 0; $x < count($data['orderout']); $x++){
 
-            if(!empty($data['first'][$x]) || !empty($data['second'][$x]) || !empty($data['first'][$x])){
-
-                $newOrderOut = ([
-                    'loan' => $loan_id,
-                    'orderouts_name' => $data['orderout'][$x],
-                    'first' => $data['first'][$x],
-                    'second' => $data['second'][$x],
-                    'third' => $data['third'][$x],
-                    'status' => $data['status'][$x],
-                    'remarks' => $data['remarks'][$x]
-                ]);
+                if(!empty($data['first'][$x]) || !empty($data['second'][$x]) || !empty($data['first'][$x])){
     
-                OrderOuts::neworderout($newOrderOut);
-            }
-            
+                    $newOrderOut = ([
+                        'loan' => $loan_id,
+                        'orderouts_name' => $data['orderout'][$x],
+                        'first' => $data['first'][$x],
+                        'second' => $data['second'][$x],
+                        'third' => $data['third'][$x],
+                        'status' => $data['status'][$x],
+                        'remarks' => $data['remarks'][$x]
+                    ]);
         
+                    OrderOuts::neworderout($newOrderOut);
+                }
+            }
         }
+        
 
         return redirect('/newloan')->with('message','Loan Successfully Added!');
     }
@@ -379,8 +380,8 @@ class Controller extends BaseController
 
         $loan_id = $data['loanid'];
 
-        $tasks = ['scrub','filesetup','disclosure','appraisal','fastrackdisclosure','fastracksubmission'];
-        $tasksNames = ['Scrub', 'File Setup' , 'Disclosure', 'Appraisal', 'FasTrack Disclosure', 'FasTrack Submission'];
+        $tasks = ['scrub','filesetup','disclosure','appraisal','fastrackdisclosure','fastracksubmission','cocdisclosure','conditionalreview','closingdisclosure','inescrowreview','preapprovalreview','hthsetup'];
+        $tasksNames = ['Scrub', 'File Setup' , 'Disclosure', 'Appraisal', 'FasTrack Disclosure', 'FasTrack Submission','COC/CIC Disclosure','Conditional Review','Closing Disclosure','In Escrow Review','Pre-approval Review','HTH Setup'];
 
         for($x = 0; $x < count($tasks); $x++){
 
@@ -397,26 +398,27 @@ class Controller extends BaseController
             }
         }
 
-        for($x = 0; $x < count($data['orderout']); $x++){
+        if(!empty($data['orderout'])){
+            for($x = 0; $x < count($data['orderout']); $x++){
 
-            if(!empty($data['first'][$x]) || !empty($data['second'][$x]) || !empty($data['first'][$x])){
-
-                $newOrderOut = ([
-                    'loan' => $loan_id,
-                    'orderouts_name' => $data['orderout'][$x],
-                    'first' => $data['first'][$x],
-                    'second' => $data['second'][$x],
-                    'third' => $data['third'][$x],
-                    'status' => $data['status'][$x],
-                    'remarks' => $data['remarks'][$x]
-                ]);
+                if(!empty($data['first'][$x]) || !empty($data['second'][$x]) || !empty($data['first'][$x])){
     
-                OrderOuts::updateorcreateorderout($newOrderOut);
-            }
+                    $newOrderOut = ([
+                        'loan' => $loan_id,
+                        'orderouts_name' => $data['orderout'][$x],
+                        'first' => $data['first'][$x],
+                        'second' => $data['second'][$x],
+                        'third' => $data['third'][$x],
+                        'status' => $data['status'][$x],
+                        'remarks' => $data['remarks'][$x]
+                    ]);
         
+                    OrderOuts::updateorcreateorderout($newOrderOut);
+                }
+            
+            }
         }
-
-
+        
         return redirect('/loaninformation/'.$data['loanid'])->with('message','Loan Successfully Edited!');
 
     }
@@ -1173,6 +1175,8 @@ class Controller extends BaseController
 
     public function test(){
         
+
+        dd(date('F j, Y g:i a'));
         return view('admin.test');
     }
 
