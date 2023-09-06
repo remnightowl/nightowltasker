@@ -211,6 +211,7 @@ class Controller extends BaseController
             'borrower' => 'required',
             'requestor' => 'required',
             'coordinator' => 'required',
+            'status' => 'required'
         ],
         [
             'loannumber.required' => 'Loan Number is required',
