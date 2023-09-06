@@ -65,16 +65,16 @@
                                             <div class="col-lg-4 col-md-4 col-sm-12">
                                                 <input type="text" name="borrower" value="{{old('borrower')}}" class="form-control">
                                             </div>
-                                            <label class="col-lg-2 col-md-2 col-sm-12 col-form-label">Remarks</label>
-                                            <div class="col-lg-4 col-md-4 col-sm-12">
-                                                <textarea rows="2" cols="5" name="loanremarks" value="{{old('remarks')}}" class="form-control" placeholder="Remarks"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
                                             <label class="col-lg-2 col-md-2 col-sm-12 col-form-label">Date Created</label>
                                             <div class="col-lg-4 col-md-4 col-sm-12">
                                                 <input type="text" readonly value="{{date('F j, Y, g:i a')}}" class="form-control">
                                             </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            
+                                        </div>
+                                        <div class="form-group row">
+                                            
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-lg-6 col-md-12 col-sm-12">
