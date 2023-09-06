@@ -211,7 +211,6 @@ class Controller extends BaseController
             'borrower' => 'required',
             'requestor' => 'required',
             'coordinator' => 'required',
-            'status' => 'required'
         ],
         [
             'loannumber.required' => 'Loan Number is required',
@@ -221,6 +220,13 @@ class Controller extends BaseController
             'requestor.required' => 'Requestor is required',
             'coordinator.required' => 'Coordinator is required'
         ]);
+
+        if(!empty($data['orderout'])){
+            
+            $data->validate([
+                'status' => 'required'
+            ]);
+        }
 
         $loan_id = Loans::AddLoan($data);
 
@@ -243,6 +249,7 @@ class Controller extends BaseController
         }
 
         if(!empty($data['orderout'])){
+            
             for($x = 0; $x < count($data['orderout']); $x++){
 
                 if(!empty($data['first'][$x]) || !empty($data['second'][$x]) || !empty($data['first'][$x])){
