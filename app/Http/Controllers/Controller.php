@@ -361,10 +361,18 @@ class Controller extends BaseController
                         ->get();
 
         $tasks = Tasks::where('loan',$id)->get();
-        $orderouts = OrderOuts::where('loan',$id)->get();
+        $orderouts = OrderOuts::where('loan',$loan->id)->get();
         $orderoutlist = OrderOuts_NameList::all();
+
+        $orderslist = [];
+
+        foreach($orderoutlist as $list){
+            array_push($orderslist,$list->orderoutName);
+        }
+
+        sort($orderslist);
         
-        return view('admin.loaninfo', compact('loan','loancoordinators','requestors','branches','tasks','orderouts','orderoutlist'));
+        return view('admin.loaninfo', compact('loan','loancoordinators','requestors','branches','tasks','orderouts','orderslist'));
     }
 
     public function loanedit(Request $data){
@@ -383,6 +391,13 @@ class Controller extends BaseController
             'requestor.required' => 'Requestor is required',
             'coordinator.required' => 'Coordinator is required'
         ]);
+
+        if(!empty($data['orderout'])){
+            
+            $data->validate([
+                'status' => 'required'
+            ]);
+        }
 
         Loans::EditLoan($data);
 
