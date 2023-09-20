@@ -1068,14 +1068,6 @@ class Controller extends BaseController
                     ->join('loans', 'orderouts.loan', '=', 'loans.id')
                     ->join('branch', 'loans.branch', '=', 'branch.id')
                     ->select('orderouts.*', 'branch.branch_name','branch.overdue_interval', 'loans.loan_number','loans.borrower','loans.requestor','loans.loan_coordinator')
-                    ->whereRaw(
-                        "CASE
-                            WHEN third IS NOT NULL THEN DATEDIFF(NOW(), third) >= `overdue_interval`
-                            WHEN second IS NOT NULL THEN DATEDIFF(NOW(), second) >= `overdue_interval`
-                            ELSE DATEDIFF(NOW(), first) >= `overdue_interval`
-                        END
-                        "
-                    )
                     ->where('loans.branch',session('branch'))
                     ->get();
 
