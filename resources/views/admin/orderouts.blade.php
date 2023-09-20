@@ -49,19 +49,19 @@
                                                         <td>{{ $coordinatorslist[$x] }}</td>
                                                         <td>
                                                             @if (!empty($orderout->first))
-                                                                {{ date('F d, Y',strtotime($orderout->first)) }}
+                                                                {{ date('F d, Y, g:i a',strtotime($orderout->first)) }}
                                                             @endif
                                                             
                                                         </td>
                                                         <td>
                                                             @if (!empty($orderout->second))
-                                                                {{ date('F d, Y',strtotime($orderout->second)) }}
+                                                                {{ date('F d, Y, g:i a',strtotime($orderout->second)) }}
                                                             @endif
                                                             
                                                         </td>
                                                         <td>
                                                             @if (!empty($orderout->third))
-                                                                {{ date('F d, Y',strtotime($orderout->third)) }}
+                                                                {{ date('F d, Y, g:i a',strtotime($orderout->third)) }}
                                                             @endif
                                                             
                                                         </td>
