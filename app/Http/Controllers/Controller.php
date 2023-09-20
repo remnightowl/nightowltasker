@@ -278,6 +278,7 @@ class Controller extends BaseController
         $loans = DB::table('loans')
                     ->join('branch', 'loans.branch', '=', 'branch.id')
                     ->select('branch.*', 'loans.*')
+                    ->where('loans.branch',session('branch'))
                     ->get();
 
         $coordinators = array();
@@ -475,9 +476,10 @@ class Controller extends BaseController
         if (Auth::attempt(['email' => $data['email'], 'password' => $data['password'], 'status' => 1])) {
             $data->session()->regenerate();
             
+            $user = User::where('email',$data['email'])->first();
 
-            $request = User::where('email',$data['email'])->first();
-            $data->session()->put('user_type', $request->user_type);
+            $data->session()->put('user_type', $user->user_type);
+            $data->session()->put('branch', $user->branch);
 
             return redirect('/dashboard')->with('message', 'Welcome!');
         }
@@ -1015,6 +1017,7 @@ class Controller extends BaseController
                     ->join('loans', 'tasks.loan', '=', 'loans.id')
                     ->join('branch', 'loans.branch', '=', 'branch.id')
                     ->select('tasks.*', 'branch.branch_name','loans.loan_number','loans.borrower','loans.requestor','loans.loan_coordinator')
+                    ->where('loans.branch',session('branch'))
                     ->get();
         
         $users = User::all();
@@ -1073,6 +1076,7 @@ class Controller extends BaseController
                         END
                         "
                     )
+                    ->where('loans.branch',session('branch'))
                     ->get();
 
         $users = User::all();
