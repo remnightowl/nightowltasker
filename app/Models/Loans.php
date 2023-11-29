@@ -35,11 +35,7 @@ class Loans extends Model
                         'loan_coordinator' => implode(',',$data['coordinator']),
                         'borrower' => $data['borrower'],
                         'remarks' => $data['loanremarks'],
-                        'demotech' => $data['demotech'],
-                        'floodcert' => $data['floodcert'],
-                        'pulldrive' => $data['pulldrive'],
-                        'agentapproval' => $data['agentapproval'],
-                        'screenupdated' => $data['screenupdated'],
+                        'date_created' => date('Y-m-j G:i:s')
                     ]);
 
         return $loan_id;
@@ -56,11 +52,6 @@ class Loans extends Model
                 'loan_coordinator' => implode(',',$data['coordinator']),
                 'borrower' => $data['borrower'],
                 'remarks' => $data['loanremarks'],
-                'demotech' => $data['demotech'],
-                'floodcert' => $data['floodcert'],
-                'pulldrive' => $data['pulldrive'],
-                'agentapproval' => $data['agentapproval'],
-                'screenupdated' => $data['screenupdated']
             ]);
     }
 }

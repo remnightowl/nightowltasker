@@ -57,7 +57,6 @@
                         <li class="user-profile header-notification">
                             <div class="dropdown-primary dropdown">
                                 <div class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="{{asset('admin/assets/images/avatar-4.jpg')}}" class="img-radius" alt="User-Profile-Image">
                                     <span>{{session('name')}}</span>
                                     <i class="feather icon-chevron-down"></i>
                                 </div>
@@ -174,35 +173,59 @@
                     </li>
                 </ul>
                 <ul class="pcoded-item pcoded-left-item">
-                    <li class=" ">
-                        <a href="/orderouts">
-                            <span class="pcoded-micon"><i class="feather icon-file-text"></i></span>
+                    <li class="pcoded-hasmenu active pcoded">
+                        <a href="javascript:void(0)">
+                            <span class="pcoded-micon"><i class="feather icon-file-text"></i> </span>
                             <span class="pcoded-mtext">Order Outs</span>
                         </a>
+                        <ul class="pcoded-submenu">
+                            <li class=" ">
+                                <a href="/orderoutnamelist">
+                                    <i class="feather icon-file-plus" style="margin-right:10px;"></i>
+                                    <span class="pcoded"> Order outs name list</span>
+                                </a>
+                            </li>
+                            <li class=" ">
+                                <a href="/orderouts">
+                                    <i class="feather icon-file-text" style="margin-right:10px;"></i>
+                                    <span class="pcoded"> List of Order Outs</span>
+                                </a>
+                            </li>
+                            <li class=" ">
+                                <a href="/overdueorderouts">
+                                    <i class="feather icon-external-link" style="margin-right:10px;"></i>
+                                    <span class="pcoded"> Overdue Order Outs</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
                 <ul class="pcoded-item pcoded-left-item">
-                    <li class=" ">
-                        <a href="/tasks">
-                            <span class="pcoded-micon"><i class="feather icon-airplay"></i></span>
+                    <li class="pcoded-hasmenu active pcoded">
+                        <a href="javascript:void(0)">
+                            <span class="pcoded-micon"><i class="feather icon-airplay"></i> </span>
                             <span class="pcoded-mtext">Tasks</span>
                         </a>
-                    </li>
-                </ul>
-                <ul class="pcoded-item pcoded-left-item">
-                        <li class=" ">
-                            <a href="/overduetasks">
-                                <span class="pcoded-micon"><i class="feather icon-clock"></i></span>
-                                <span class="pcoded-mtext">Overdue Tasks</span>
-                            </a>
-                        </li>
-                </ul>
-                <ul class="pcoded-item pcoded-left-item">
-                    <li class=" ">
-                        <a href="/overdueorderouts">
-                            <span class="pcoded-micon"><i class="feather icon-external-link"></i></span>
-                            <span class="pcoded-mtext">Overdue Order Outs</span>
-                        </a>
+                        <ul class="pcoded-submenu">
+                            <li class=" ">
+                                <a href="/tasknamelist">
+                                    <i class="feather icon-file-plus" style="margin-right:10px;"></i>
+                                    <span class="pcoded"> Tasks name list</span>
+                                </a>
+                            </li>
+                            <li class=" ">
+                                <a href="/tasks">
+                                    <i class="feather icon-file-text" style="margin-right:10px;"></i>
+                                    <span class="pcoded"> List of Tasks</span>
+                                </a>
+                            </li>
+                            <li class=" ">
+                                <a href="/overduetasks">
+                                    <i class="feather icon-external-link" style="margin-right:10px;"></i>
+                                    <span class="pcoded"> Overdue Tasks</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
                 <ul class="pcoded-item pcoded-left-item">

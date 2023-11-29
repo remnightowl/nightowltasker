@@ -45,7 +45,7 @@
                                                         <td>{{ $tasks->borrower }}</td>
                                                         <td>{{ $tasks->requestor }}</td>
                                                         <td>{{ $coordinatorslist[$x] }}</td>
-                                                        <td>{{ date('F d, Y',strtotime($tasks->start)) }}</td>
+                                                        <td>{{ date('F d, Y, g:i a',strtotime($tasks->start)) }}</td>
                                                         <td>
                                                             @if (!@empty($tasks->end))
                                                                 Completed

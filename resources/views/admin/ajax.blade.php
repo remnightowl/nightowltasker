@@ -63,7 +63,7 @@ $.ajaxSetup({
     //START!!! When Start button for scrub was clicked
     $('#scrubstart').click(function(e){
         e.preventDefault();
-        $('#datetimescrubstart').val(new Date().addHours(8).toJSON().slice(0,19));
+        $('#datetimescrubstart').val(new Date().addHours(-7).toJSON().slice(0,19));
     });
     //END!!!
 
@@ -72,7 +72,7 @@ $.ajaxSetup({
         e.preventDefault();
         
         
-        $('#datetimescrubend').val(new Date().addHours(8).toJSON().slice(0,19));
+        $('#datetimescrubend').val(new Date().addHours(-7).toJSON().slice(0,19));
 
     });
     //END!!!
@@ -82,7 +82,7 @@ $.ajaxSetup({
     $('#filesetupstart').click(function(e){
         e.preventDefault();
 
-        $('#datetimefilesetupstart').val(new Date().addHours(8).toJSON().slice(0,19));
+        $('#datetimefilesetupstart').val(new Date().addHours(-7).toJSON().slice(0,19));
 
     });
     //END!!!
@@ -91,7 +91,7 @@ $.ajaxSetup({
     $('#filesetupend').click(function(e){
         e.preventDefault();
 
-        $('#datetimefilesetupend').val(new Date().addHours(8).toJSON().slice(0,19));
+        $('#datetimefilesetupend').val(new Date().addHours(-7).toJSON().slice(0,19));
 
     });
     //END!!!
@@ -100,7 +100,7 @@ $.ajaxSetup({
     $('#disclosurestart').click(function(e){
         e.preventDefault();
 
-        $('#datetimedisclosurestart').val(new Date().addHours(8).toJSON().slice(0,19));
+        $('#datetimedisclosurestart').val(new Date().addHours(-7).toJSON().slice(0,19));
 
     });
     //END!!!
@@ -109,7 +109,7 @@ $.ajaxSetup({
     $('#disclosureend').click(function(e){
         e.preventDefault();
 
-        $('#datetimedisclosureend').val(new Date().addHours(8).toJSON().slice(0,19));
+        $('#datetimedisclosureend').val(new Date().addHours(-7).toJSON().slice(0,19));
 
     });
     //END!!!
@@ -118,7 +118,7 @@ $.ajaxSetup({
     $('#appraisalstart').click(function(e){
         e.preventDefault();
 
-        $('#datetimeappraisalstart').val(new Date().addHours(8).toJSON().slice(0,19));
+        $('#datetimeappraisalstart').val(new Date().addHours(-7).toJSON().slice(0,19));
 
     });
     //END!!!
@@ -127,7 +127,7 @@ $.ajaxSetup({
     $('#appraisalend').click(function(e){
         e.preventDefault();
 
-        $('#datetimeappraisalend').val(new Date().addHours(8).toJSON().slice(0,19));
+        $('#datetimeappraisalend').val(new Date().addHours(-7).toJSON().slice(0,19));
 
     });
     //END!!!
@@ -136,7 +136,7 @@ $.ajaxSetup({
     $('#fastrackdisclosurestart').click(function(e){
         e.preventDefault();
 
-        $('#datetimeftdisclosurestart').val(new Date().addHours(8).toJSON().slice(0,19));
+        $('#datetimeftdisclosurestart').val(new Date().addHours(-7).toJSON().slice(0,19));
 
     });
     //END!!!
@@ -145,7 +145,7 @@ $.ajaxSetup({
     $('#fastrackdisclosureend').click(function(e){
         e.preventDefault();
 
-        $('#datetimeftdisclosureend').val(new Date().addHours(8).toJSON().slice(0,19));
+        $('#datetimeftdisclosureend').val(new Date().addHours(-7).toJSON().slice(0,19));
 
     });
     //END!!!
@@ -154,7 +154,7 @@ $.ajaxSetup({
     $('#fastracksubmissionstart').click(function(e){
         e.preventDefault();
 
-        $('#datetimeftsubmissionstart').val(new Date().addHours(8).toJSON().slice(0,19));
+        $('#datetimeftsubmissionstart').val(new Date().addHours(-7).toJSON().slice(0,19));
 
     });
     //END!!!
@@ -163,7 +163,115 @@ $.ajaxSetup({
     $('#fastracksubmissionend').click(function(e){
         e.preventDefault();
 
-        $('#datetimeftsubmissionend').val(new Date().addHours(8).toJSON().slice(0,19));
+        $('#datetimeftsubmissionend').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When Start button for FasTrack Disclosure was clicked
+    $('#cocdisclosurestart').click(function(e){
+        e.preventDefault();
+
+        $('#datetimecocdisclosurestart').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When End button for FasTrack Disclosure was clicked
+    $('#cocdisclosureend').click(function(e){
+        e.preventDefault();
+
+        $('#datetimecocdisclosureend').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When Start button for FasTrack Disclosure was clicked
+    $('#conditionalreviewstart').click(function(e){
+        e.preventDefault();
+
+        $('#datetimeconditionalreviewstart').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When End button for FasTrack Disclosure was clicked
+    $('#conditionalreviewend').click(function(e){
+        e.preventDefault();
+
+        $('#datetimeconditionalreviewend').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When Start button for FasTrack Disclosure was clicked
+    $('#closingdisclosurestart').click(function(e){
+        e.preventDefault();
+
+        $('#datetimeclosingdisclosurestart').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When End button for FasTrack Disclosure was clicked
+    $('#closingdisclosureend').click(function(e){
+        e.preventDefault();
+
+        $('#datetimeclosingdisclosureend').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When Start button for FasTrack Disclosure was clicked
+    $('#inescrowreviewstart').click(function(e){
+        e.preventDefault();
+
+        $('#datetimeinescrowreviewstart').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When End button for FasTrack Disclosure was clicked
+    $('#inescrowreviewend').click(function(e){
+        e.preventDefault();
+
+        $('#datetimeinescrowreviewend').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When Start button for FasTrack Disclosure was clicked
+    $('#preapprovalreviewstart').click(function(e){
+        e.preventDefault();
+
+        $('#datetimepreapprovalreviewstart').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When End button for FasTrack Disclosure was clicked
+    $('#preapprovalreviewend').click(function(e){
+        e.preventDefault();
+
+        $('#datetimepreapprovalreviewend').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When Start button for FasTrack Disclosure was clicked
+    $('#hthsetupstart').click(function(e){
+        e.preventDefault();
+
+        $('#datetimehthsetupstart').val(new Date().addHours(-7).toJSON().slice(0,19));
+
+    });
+    //END!!!
+
+    //START!!! When End button for FasTrack Disclosure was clicked
+    $('#hthsetupend').click(function(e){
+        e.preventDefault();
+
+        $('#datetimehthsetupend').val(new Date().addHours(-7).toJSON().slice(0,19));
 
     });
     //END!!!
@@ -352,8 +460,119 @@ $.ajaxSetup({
         })
     });
     
+    $('.orderoutnameedit').click(function(e){
 
-        
+        var id = $(this).attr("id");
+
+        $.ajax({
+            url: '/getorderoutname',
+            type: 'POST',
+            data: {
+                id: id,
+            },
+            dataType: 'JSON',
+            success: function(result){
+                $('#orderoutlistedit').val(result.orderoutName);
+                $('#orderoutnameID').val(id);
+            }
+        });
+    });
+    
+    $('.orderoutnamedelete').click(function(e){
+        e.preventDefault();
+
+        var id = $(this).attr("id");
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "you want to delete this order out type?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!'
+        }).then((willDelete) => {
+            if (willDelete.isConfirmed) {
+                Swal.fire(
+                    'Deleted!',
+                    'Order out type has been deleted.',
+                    'success'
+                ).then((confirmdelete) => {
+                    if(confirmdelete){
+                        $.ajax({
+                            url: '/deleteorderouttype',
+                            type: 'POST',
+                            data: {
+                                id: id
+                            },
+                            dataType: 'HTML',
+                            success: function(response){
+                                window.location.reload();
+                            }
+                        });
+                    }
+                });
+                
+            }
+        });  
+    })
+
+    $('.tasknameedit').click(function(e){
+
+        var id = $(this).attr("id");
+
+        $.ajax({
+            url: '/gettaskname',
+            type: 'POST',
+            data: {
+                id: id,
+            },
+            dataType: 'JSON',
+            success: function(result){
+                $('#tasklistedit').val(result.taskName);
+                $('#tasklistId').val(id);
+            }
+        });
+    });
+
+    $('.tasknamedelete').click(function(e){
+        e.preventDefault();
+
+        var id = $(this).attr("id");
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "you want to delete this task type?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!'
+        }).then((willDelete) => {
+            if (willDelete.isConfirmed) {
+                Swal.fire(
+                    'Deleted!',
+                    'Task type has been deleted.',
+                    'success'
+                ).then((confirmdelete) => {
+                    if(confirmdelete){
+                        $.ajax({
+                            url: '/deletetasktype',
+                            type: 'POST',
+                            data: {
+                                id: id
+                            },
+                            dataType: 'HTML',
+                            success: function(response){
+                                window.location.reload();
+                            }
+                        });
+                    }
+                });
+                
+            }
+        });  
+    })
 
     
 

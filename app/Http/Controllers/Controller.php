@@ -13,6 +13,8 @@ use App\Models\User;
 use App\Models\Loans;
 use App\Models\OrderOuts;
 use App\Models\Tasks;
+use App\Models\OrderOuts_NameList;
+use App\Models\Tasks_NameList;
 use Illuminate\Support\Carbon;
 
 use Illuminate\Support\Facades\Auth;
@@ -174,8 +176,17 @@ class Controller extends BaseController
         
         $tasks = Tasks::all();
         $orderouts = OrderOuts::all();
+        $orderoutlist = OrderOuts_NameList::all();
+        $orderslist = [];
 
-        return view('admin.newloan', compact('branches','coordinators','requestors','tasks','orderouts'));
+        foreach($orderoutlist as $list){
+            array_push($orderslist,$list->orderoutName);
+        }
+
+        sort($orderslist);
+
+
+        return view('admin.newloan', compact('branches','coordinators','requestors','tasks','orderouts','orderslist'));
 
 
     }
@@ -192,7 +203,7 @@ class Controller extends BaseController
         return response()->json($result);
     }
 
-    public function addloan (Request $data){
+    public function addloan (Request $data){    
 
         $data->validate([
             'loannumber' => 'required|unique:loans,loan_number',
@@ -210,10 +221,17 @@ class Controller extends BaseController
             'coordinator.required' => 'Coordinator is required'
         ]);
 
+        if(!empty($data['orderout'])){
+            
+            $data->validate([
+                'status' => 'required'
+            ]);
+        }
+
         $loan_id = Loans::AddLoan($data);
 
-        $tasks = ['scrub','filesetup','disclosure','appraisal','fastrackdisclosure','fastracksubmission'];
-        $tasksNames = ['Scrub', 'File Setup' , 'Disclosure', 'Appraisal', 'FasTrack Disclosure', 'FasTrack Submission'];
+        $tasks = ['scrub','filesetup','disclosure','appraisal','fastrackdisclosure','fastracksubmission','cocdisclosure','conditionalreview','closingdisclosure','inescrowreview','preapprovalreview','hthsetup'];
+        $tasksNames = ['Scrub', 'File Setup' , 'Disclosure', 'Appraisal', 'FasTrack Disclosure', 'FasTrack Submission','COC/CIC Disclosure','Conditional Review','Closing Disclosure','In Escrow Review','Pre-approval Review','HTH Setup'];
 
         for($x = 0; $x < count($tasks); $x++){
 
@@ -230,28 +248,27 @@ class Controller extends BaseController
             }
         }
 
-        $orderOuts = ['eoi','master','flood','mortgage','collection','credit','vvoe','wvoeb1','wvoeb2','wvoeb3','wvoecb1','wvoecb2','wvoecb3','tax','pest','vom','titledocs'];
+        if(!empty($data['orderout'])){
+            
+            for($x = 0; $x < count($data['orderout']); $x++){
 
-        $orderOuts_names = ['EOI','Master Insurance','Flood Insurance','Mortgage Payoff','Collection Payoff','Credit Supplement','VVOE','WVOE Borrower 1','WVOE Borrower 2','WVOE Borrower 3','WVOE Co-borrower 1','WVOE Co-borrower 2','WVOE Co-borrower 3','Tax Transcript','Pest Inspection','24 Payment-VOM','Title Docs'];
-
-        for($i = 0; $i < count($orderOuts); $i++){
-
-            if(!empty($data[$orderOuts[$i].'first']) || !empty($data[$orderOuts[$i].'second']) || !empty($data[$orderOuts[$i].'third'])){
-                
-                $newOrderOut = ([
-                    'loan' => $loan_id,
-                    'orderouts_name' => $orderOuts_names[$i],
-                    'first' => $data[$orderOuts[$i].'first'],
-                    'second' => $data[$orderOuts[$i].'second'],
-                    'third' => $data[$orderOuts[$i].'third'],
-                    'status' => $data[$orderOuts[$i].'status'],
-                    'remarks' => $data[$orderOuts[$i].'remarks']
-                ]);
-
-                OrderOuts::neworderout($newOrderOut);
+                if(!empty($data['first'][$x]) || !empty($data['second'][$x]) || !empty($data['first'][$x])){
+    
+                    $newOrderOut = ([
+                        'loan' => $loan_id,
+                        'orderouts_name' => $data['orderout'][$x],
+                        'first' => $data['first'][$x],
+                        'second' => $data['second'][$x],
+                        'third' => $data['third'][$x],
+                        'status' => $data['status'][$x],
+                        'remarks' => $data['remarks'][$x]
+                    ]);
+        
+                    OrderOuts::neworderout($newOrderOut);
+                }
             }
         }
-
+        
 
         return redirect('/newloan')->with('message','Loan Successfully Added!');
     }
@@ -261,6 +278,7 @@ class Controller extends BaseController
         $loans = DB::table('loans')
                     ->join('branch', 'loans.branch', '=', 'branch.id')
                     ->select('branch.*', 'loans.*')
+                    ->where('loans.branch',session('branch'))
                     ->get();
 
         $coordinators = array();
@@ -310,9 +328,52 @@ class Controller extends BaseController
 
         $tasks = Tasks::where('loan',$id)->get();
         $orderouts = OrderOuts::where('loan',$id)->get();
+        $orderoutlist = OrderOuts_NameList::all();
 
+        $orderslist = [];
+
+        foreach($orderoutlist as $list){
+            array_push($orderslist,$list->orderoutName);
+        }
+
+        sort($orderslist);
         
-        return view('admin.loaninfo', compact('loan','loancoordinators','requestors','branches','tasks','orderouts'));
+        return view('admin.loaninfo', compact('loan','loancoordinators','requestors','branches','tasks','orderouts','orderslist'));
+    }
+
+    public function loaninfo($id){
+
+        $loan = DB::table('loans')
+                    ->select('*')
+                    ->where('loan_number', '=', $id)
+                    ->first();
+
+        $branches = Branch::all();
+        $requestors = DB::table('user')
+                        ->select('*')
+                        ->where('branch', '=', $loan->branch)
+                        ->where('user_type', '=', 2)
+                        ->get();
+
+        $loancoordinators = DB::table('user')
+                        ->select('*')
+                        ->where('branch', '=', $loan->branch)
+                        ->where('user_type', '=', 1)
+                        ->get();
+
+        $tasks = Tasks::where('loan',$id)->get();
+        $orderouts = OrderOuts::where('loan',$loan->id)->get();
+        $orderoutlist = OrderOuts_NameList::all();
+
+        $orderslist = [];
+
+        foreach($orderoutlist as $list){
+            array_push($orderslist,$list->orderoutName);
+        }
+
+        sort($orderslist);
+        
+        return view('admin.loaninfo', compact('loan','loancoordinators','requestors','branches','tasks','orderouts','orderslist'));
     }
 
     public function loanedit(Request $data){
@@ -332,12 +393,19 @@ class Controller extends BaseController
             'coordinator.required' => 'Coordinator is required'
         ]);
 
+        if(!empty($data['orderout'])){
+            
+            $data->validate([
+                'status' => 'required'
+            ]);
+        }
+
         Loans::EditLoan($data);
 
         $loan_id = $data['loanid'];
 
-        $tasks = ['scrub','filesetup','disclosure','appraisal','fastrackdisclosure','fastracksubmission'];
-        $tasksNames = ['Scrub', 'File Setup' , 'Disclosure', 'Appraisal', 'FasTrack Disclosure', 'FasTrack Submission'];
+        $tasks = ['scrub','filesetup','disclosure','appraisal','fastrackdisclosure','fastracksubmission','cocdisclosure','conditionalreview','closingdisclosure','inescrowreview','preapprovalreview','hthsetup'];
+        $tasksNames = ['Scrub', 'File Setup' , 'Disclosure', 'Appraisal', 'FasTrack Disclosure', 'FasTrack Submission','COC/CIC Disclosure','Conditional Review','Closing Disclosure','In Escrow Review','Pre-approval Review','HTH Setup'];
 
         for($x = 0; $x < count($tasks); $x++){
 
@@ -354,29 +422,27 @@ class Controller extends BaseController
             }
         }
 
-        $orderOuts = ['eoi','master','flood','mortgage','collection','credit','vvoe','wvoeb1','wvoeb2','wvoeb3','wvoecb1','wvoecb2','wvoecb3','tax','pest','vom','titledocs'];
+        if(!empty($data['orderout'])){
+            for($x = 0; $x < count($data['orderout']); $x++){
 
-        $orderOuts_names = ['EOI','Master Insurance','Flood Insurance','Mortgage Payoff','Collection Payoff','Credit Supplement','VVOE','WVOE Borrower 1','WVOE Borrower 2','WVOE Borrower 3','WVOE Co-borrower 1','WVOE Co-borrower 2','WVOE Co-borrower 3','Tax Transcript','Pest Inspection','24 Payment-VOM','Title Docs'];
-
-        for($i = 0; $i < count($orderOuts); $i++){
-
-            if(!empty($data[$orderOuts[$i].'first']) || !empty($data[$orderOuts[$i].'second']) || !empty($data[$orderOuts[$i].'third'])){
-                
-                $newOrderOut = ([
-                    'loan' => $loan_id,
-                    'orderouts_name' => $orderOuts_names[$i],
-                    'first' => $data[$orderOuts[$i].'first'],
-                    'second' => $data[$orderOuts[$i].'second'],
-                    'third' => $data[$orderOuts[$i].'third'],
-                    'status' => $data[$orderOuts[$i].'status'],
-                    'remarks' => $data[$orderOuts[$i].'remarks']
-                ]);
-
-                OrderOuts::updateorcreateorderout($newOrderOut);
+                if(!empty($data['first'][$x]) || !empty($data['second'][$x]) || !empty($data['first'][$x])){
+    
+                    $newOrderOut = ([
+                        'loan' => $loan_id,
+                        'orderouts_name' => $data['orderout'][$x],
+                        'first' => $data['first'][$x],
+                        'second' => $data['second'][$x],
+                        'third' => $data['third'][$x],
+                        'status' => $data['status'][$x],
+                        'remarks' => $data['remarks'][$x]
+                    ]);
+        
+                    OrderOuts::updateorcreateorderout($newOrderOut);
+                }
+            
             }
         }
-
-
+        
         return redirect('/loaninformation/'.$data['loanid'])->with('message','Loan Successfully Edited!');
 
     }
@@ -410,9 +476,10 @@ class Controller extends BaseController
         if (Auth::attempt(['email' => $data['email'], 'password' => $data['password'], 'status' => 1])) {
             $data->session()->regenerate();
             
+            $user = User::where('email',$data['email'])->first();
 
-            $request = User::where('email',$data['email'])->first();
-            $data->session()->put('user_type', $request->user_type);
+            $data->session()->put('user_type', $user->user_type);
+            $data->session()->put('branch', $user->branch);
 
             return redirect('/dashboard')->with('message', 'Welcome!');
         }
@@ -531,6 +598,7 @@ class Controller extends BaseController
                         "
                     )
                     ->where('status', '!=', 'Completed')
+                    ->where('status', '!=', 'Cancelled')
                     ->get();
 
         $users = User::all();
@@ -949,6 +1017,7 @@ class Controller extends BaseController
                     ->join('loans', 'tasks.loan', '=', 'loans.id')
                     ->join('branch', 'loans.branch', '=', 'branch.id')
                     ->select('tasks.*', 'branch.branch_name','loans.loan_number','loans.borrower','loans.requestor','loans.loan_coordinator')
+                    ->where('loans.branch',session('branch'))
                     ->get();
         
         $users = User::all();
@@ -999,15 +1068,7 @@ class Controller extends BaseController
                     ->join('loans', 'orderouts.loan', '=', 'loans.id')
                     ->join('branch', 'loans.branch', '=', 'branch.id')
                     ->select('orderouts.*', 'branch.branch_name','branch.overdue_interval', 'loans.loan_number','loans.borrower','loans.requestor','loans.loan_coordinator')
-                    ->whereRaw(
-                        "CASE
-                            WHEN third IS NOT NULL THEN DATEDIFF(NOW(), third) >= `overdue_interval`
-                            WHEN second IS NOT NULL THEN DATEDIFF(NOW(), second) >= `overdue_interval`
-                            ELSE DATEDIFF(NOW(), first) >= `overdue_interval`
-                        END
-                        "
-                    )
-                    ->where('status', '!=', 'Completed')
+                    ->where('loans.branch',session('branch'))
                     ->get();
 
         $users = User::all();
@@ -1050,9 +1111,116 @@ class Controller extends BaseController
         return response()->json($data);
     }
 
+    public function orderoutnamelist(){
+
+        $data = OrderOuts_Namelist::all();
+
+        return view('admin.orderoutslist', compact('data'));
+
+    }
+
+    public function addneworderoutlist(Request $item){
+
+        OrderOuts_NameList::insertOrderOutType($item);
+
+        $data = OrderOuts_Namelist::all();
+
+        return view('admin.orderoutslist', compact('data'));
+    }
+
+    public function getorderoutname(Request $data){
+
+        $orderOutType = OrderOuts_NameList::where('namelistId','=',$data['id'])->first();
+
+        return response()->json($orderOutType);
+    }
+
+    public function editorderoutlist(Request $item){
+
+        OrderOuts_NameList::editOrderOutType($item);
+
+        $data = OrderOuts_Namelist::all();
+
+        return view('admin.orderoutslist', compact('data'));
+
+    }
+    
+    public function deleteorderouttype(Request $data){
+
+        OrderOuts_Namelist::DeleteOrderOutType($data);
+        return response()->json($data);
+    }
+
+    public function tasknamelist(){
+
+        $data = Tasks_NameList::all();
+
+        return view('admin.taskslist', compact('data'));
+
+    }
+
+    public function addnewtasklist(Request $item){
+
+        Tasks_NameList::insertTaskType($item);
+
+        $data = Tasks_NameList::all();
+
+        return redirect('/tasknamelist')->with('message','Task Type Successfully Added!');
+
+    }
+
+    public function gettaskname(Request $data){
+
+        $taskType = Tasks_NameList::where('tasklistId','=',$data['id'])->first();
+
+        return response()->json($taskType);
+    }
+
+    public function edittasklist(Request $item){
+
+        Tasks_NameList::editTaskType($item);
+
+        $data = Tasks_NameList::all();
+
+        return view('admin.taskslist', compact('data'));
+
+    }
+
+    public function deletetasktype(Request $data){
+
+        Tasks_NameList::DeleteTaskType($data);
+        return response()->json($data);
+    }
+
     public function test(){
         
-        dd(date("Y-m-d\\TH:i:s"));
+
+        dd(date('F j, Y g:i a'));
+        return view('admin.test');
+    }
+
+    public function test1(){
+
+        $branches = Branch::all();
+
+        $coordinators = DB::table('user')
+                        ->select('*')
+                        ->where('user_type', '=', 1)
+                        ->get();
+        
+        $requestors = DB::table('user')
+                        ->select('*')
+                        ->where('user_type', '=', 2)
+                        ->get();
+        
+        $tasks = Tasks::all();
+        $orderouts = OrderOuts::all();
+
+        return view('admin.newloancopy', compact('branches','coordinators','requestors','tasks','orderouts'));
+    }
+
+    public function addloantest(Request $data){
+        dd($data);
     }
 
    

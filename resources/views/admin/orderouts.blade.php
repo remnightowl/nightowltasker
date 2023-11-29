@@ -41,7 +41,7 @@
                                                 @php ($x = 0)
                                                 @foreach ($data as $orderout)
                                                     <tr>
-                                                        <td>{{ $orderout->loan_number }}</td>
+                                                        <td><a href="/loaninfo/{{ $orderout->loan_number}}">{{ $orderout->loan_number }}</a></td>
                                                         <td>{{ $orderout->branch_name }}</td>
                                                         <td>{{ $orderout->orderouts_name }}</td>
                                                         <td>{{ $orderout->borrower }}</td> 
@@ -49,26 +49,26 @@
                                                         <td>{{ $coordinatorslist[$x] }}</td>
                                                         <td>
                                                             @if (!empty($orderout->first))
-                                                                {{ date('F d, Y',strtotime($orderout->first)) }}
+                                                                {{ date('F d, Y, g:i a',strtotime($orderout->first)) }}
                                                             @endif
                                                             
                                                         </td>
                                                         <td>
                                                             @if (!empty($orderout->second))
-                                                                {{ date('F d, Y',strtotime($orderout->second)) }}
+                                                                {{ date('F d, Y, g:i a',strtotime($orderout->second)) }}
                                                             @endif
                                                             
                                                         </td>
                                                         <td>
                                                             @if (!empty($orderout->third))
-                                                                {{ date('F d, Y',strtotime($orderout->third)) }}
+                                                                {{ date('F d, Y, g:i a',strtotime($orderout->third)) }}
                                                             @endif
                                                             
                                                         </td>
                                                         <td>
                                                             <select name="select" class="form-control form-control-inverse orderoutstatus" style="width: 150px; height: 20px;" id={{$orderout->id}}>
                                                                 <option value="" disabled selected>Please select status here</option>
-                                                                <option value="Completed" @if($orderout->status == 'Completed') selected @endif>Completed</option>
+                                                                <option value="Completed" @if($orderout->status == 'Completed') selected @endif>Completed - {{date('F j, Y');}}</option>
                                                                 <option value="Ordered" @if($orderout->status == 'Ordered') selected @endif>Ordered</option>
                                                                 <option value="Pending" @if($orderout->status == 'Pending') selected @endif>Pending</option>
                                                                 <option value="Waiting on Processor" @if($orderout->status == 'Waiting on Processor') selected @endif>Waiting on Processor</option>

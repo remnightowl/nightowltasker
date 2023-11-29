@@ -31,7 +31,7 @@
                                             </ul>
                                         </div>
                                     @endif
-                                    <form action="/addloan" method="POST">
+                                    <form action="/addloantest" method="POST">
                                         @csrf
                                         <div class="form-group row">
                                             <label class="col-lg-2 col-md-2 col-sm-12 col-form-label">Loan Number</label>
@@ -65,16 +65,10 @@
                                             <div class="col-lg-4 col-md-4 col-sm-12">
                                                 <input type="text" name="borrower" value="{{old('borrower')}}" class="form-control">
                                             </div>
-                                            <label class="col-lg-2 col-md-2 col-sm-12 col-form-label">Date Created</label>
+                                            <label class="col-lg-2 col-md-2 col-sm-12 col-form-label">Remarks</label>
                                             <div class="col-lg-4 col-md-4 col-sm-12">
-                                                <input type="text" readonly value="{{date('F j, Y, g:i a')}}" class="form-control">
+                                                <textarea rows="2" cols="5" name="loanremarks" value="{{old('remarks')}}" class="form-control" placeholder="Remarks"></textarea>
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            
-                                        </div>
-                                        <div class="form-group row">
-                                            
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-lg-6 col-md-12 col-sm-12">
@@ -184,139 +178,29 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                                <div class="form-group row">
-                                                    <label class="col-lg-2 col-md-2 col-sm-2 col-form-label">COC/CIC Disclosure</label>
-                                                    <div class="col-lg-2 col-md-2 col-sm-2">
-                                                        <button class="btn btn-md btn-success btn-round" id="cocdisclosurestart" style="padding: 0.4rem 1.7rem;" type="button">START</button>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-3">
-                                                        <input type="datetime-local" name="cocdisclosurestart" id="datetimecocdisclosurestart" class="form-control" step="any">
-                                                    </div>
-                                                    <div class="col-lg-2 col-md-2 col-sm-2">
-                                                        <button class="btn btn-md btn-danger btn-round" id="cocdisclosureend" style="padding: 0.4rem 1.7rem;" type="button">END</button>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-3">
-                                                        <input type="datetime-local" name="cocdisclosureend" id="datetimecocdisclosureend" class="form-control" step="any">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                                <div class="form-group row">
-                                                    <label class="col-lg-2 col-md-2 col-sm-2 col-form-label">Conditional Review</label>
-                                                    <div class="col-lg-2 col-md-2 col-sm-2">
-                                                        <button class="btn btn-md btn-success btn-round" id="conditionalreviewstart" style="padding: 0.4rem 1.7rem;" type="button">START</button>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-3">
-                                                        <input type="datetime-local" name="conditionalreviewstart" id="datetimeconditionalreviewstart" class="form-control" step="any">
-                                                    </div>
-                                                    <div class="col-lg-2 col-md-2 col-sm-2">
-                                                        <button class="btn btn-md btn-danger btn-round" id="conditionalreviewend" style="padding: 0.4rem 1.7rem;" type="button">END</button>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-3">
-                                                        <input type="datetime-local" name="conditionalreviewend" id="datetimeconditionalreviewend" class="form-control" step="any">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                                <div class="form-group row">
-                                                    <label class="col-lg-2 col-md-2 col-sm-2 col-form-label">Closing Disclosure</label>
-                                                    <div class="col-lg-2 col-md-2 col-sm-2">
-                                                        <button class="btn btn-md btn-success btn-round" id="closingdisclosurestart" style="padding: 0.4rem 1.7rem;" type="button">START</button>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-3">
-                                                        <input type="datetime-local" name="closingdisclosurestart" id="datetimeclosingdisclosurestart" class="form-control" step="any">
-                                                    </div>
-                                                    <div class="col-lg-2 col-md-2 col-sm-2">
-                                                        <button class="btn btn-md btn-danger btn-round" id="closingdisclosureend" style="padding: 0.4rem 1.7rem;" type="button">END</button>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-3">
-                                                        <input type="datetime-local" name="closingdisclosureend" id="datetimeclosingdisclosureend" class="form-control" step="any">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                                <div class="form-group row">
-                                                    <label class="col-lg-2 col-md-2 col-sm-2 col-form-label">In Escrow Review</label>
-                                                    <div class="col-lg-2 col-md-2 col-sm-2">
-                                                        <button class="btn btn-md btn-success btn-round" id="inescrowreviewstart" style="padding: 0.4rem 1.7rem;" type="button">START</button>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-3">
-                                                        <input type="datetime-local" name="inescrowreviewstart" id="datetimeinescrowreviewstart" class="form-control" step="any">
-                                                    </div>
-                                                    <div class="col-lg-2 col-md-2 col-sm-2">
-                                                        <button class="btn btn-md btn-danger btn-round" id="inescrowreviewend" style="padding: 0.4rem 1.7rem;" type="button">END</button>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-3">
-                                                        <input type="datetime-local" name="inescrowreviewend" id="datetimeinescrowreviewend" class="form-control" step="any">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                                <div class="form-group row">
-                                                    <label class="col-lg-2 col-md-2 col-sm-2 col-form-label">Pre-approval Review</label>
-                                                    <div class="col-lg-2 col-md-2 col-sm-2">
-                                                        <button class="btn btn-md btn-success btn-round" id="preapprovalreviewstart" style="padding: 0.4rem 1.7rem;" type="button">START</button>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-3">
-                                                        <input type="datetime-local" name="preapprovalreviewstart" id="datetimepreapprovalreviewstart" class="form-control" step="any">
-                                                    </div>
-                                                    <div class="col-lg-2 col-md-2 col-sm-2">
-                                                        <button class="btn btn-md btn-danger btn-round" id="preapprovalreviewend" style="padding: 0.4rem 1.7rem;" type="button">END</button>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-3">
-                                                        <input type="datetime-local" name="preapprovalreviewend" id="datetimepreapprovalreviewend" class="form-control" step="any">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                                <div class="form-group row">
-                                                    <label class="col-lg-2 col-md-2 col-sm-2 col-form-label">HTH Setup</label>
-                                                    <div class="col-lg-2 col-md-2 col-sm-2">
-                                                        <button class="btn btn-md btn-success btn-round" id="hthsetupstart" style="padding: 0.4rem 1.7rem;" type="button">START</button>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-3">
-                                                        <input type="datetime-local" name="hthsetupstart" id="datetimehthsetupstart" class="form-control" step="any">
-                                                    </div>
-                                                    <div class="col-lg-2 col-md-2 col-sm-2">
-                                                        <button class="btn btn-md btn-danger btn-round" id="hthsetupend" style="padding: 0.4rem 1.7rem;" type="button">END</button>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-3">
-                                                        <input type="datetime-local" name="hthsetupend" id="datetimehthsetupend" class="form-control" step="any">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="clone-rightside-btn-1">
                                             <div class="row toclone">
                                                 <div class="col-lg-2 col-md-12 col-sm-12">
                                                     <div class="input-group">
                                                         <select name="orderout[]" class="form-control">
                                                             <option value="" disabled selected>Order outs</option>
-                                                            @for($x = 0; $x < count($orderslist); $x++)
-                                                            <option value="
-                                                                @php
-                                                                    if($orderslist[$x] == 'Completed'){
-                                                                        echo $orderslist[$x].' - '.date('F j, Y, g:i a');
-                                                                    }
-                                                                    else{
-                                                                        echo $orderslist[$x];
-                                                                    }
-                                                                @endphp
-                                                                ">@php
-                                                                if($orderslist[$x] == 'Completed'){
-                                                                    echo $orderslist[$x].' - '.date('F j, Y, g:i a');
-                                                                }
-                                                                else{
-                                                                    echo $orderslist[$x];
-                                                                }
-                                                            @endphp</option>
-                                                            @endfor
+                                                            <option value="EOI">Completed</option>
+                                                            <option value="Master Insurance">Master Insurance</option>
+                                                            <option value="Flood Insurance">Flood Insurance</option>
+                                                            <option value="Mortgage Payoff">Mortgage Payoff</option>
+                                                            <option value="Collection Payoff">Collection Payoff</option>
+                                                            <option value="Credit Supplement">Credit Supplement</option>
+                                                            <option value="VVOE">VVOE</option>
+                                                            <option value="WVOE Borrower 1">WVOE Borrower 1</option>
+                                                            <option value="WVOE Borrower 2">WVOE Borrower 2</option>
+                                                            <option value="WVOE Borrower 3">WVOE Borrower 3</option>
+                                                            <option value="WVOE Co-borrower 1">WVOE Co-borrower 1</option>
+                                                            <option value="WVOE Co-borrower 2">WVOE Co-borrower 2</option>
+                                                            <option value="WVOE Co-borrower 3">WVOE Co-borrower 3</option>
+                                                            <option value="Tax Transcript">Tax Transcript</option>
+                                                            <option value="Pest Inspection">Pest Inspection</option>
+                                                            <option value="24 Payment-VOM">24 Payment-VOM</option>
+                                                            <option value="Title Docs">Title Docs</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -342,7 +226,7 @@
                                                     <div class="input-group">
                                                         <select name="status[]" class="form-control">
                                                             <option value="" disabled selected>Status</option>
-                                                            <option value="Completed">Completed - {{date('F j, Y, g:i a');}}</option>
+                                                            <option value="Completed">Completed</option>
                                                             <option value="Ordered">Ordered</option>
                                                             <option value="Pending">Pending</option>
                                                             <option value="Waiting on Processor">Waiting on Processor</option>
@@ -365,15 +249,15 @@
                                                         <i class="icofont icofont-plus"></i>
                                                     </button>
                                                 </div>
-                                            </div>
+                                                
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-5"></div>
                                             <div class="col-sm-7">
                                                 <button class="btn btn-md btn-success btn-round" style="padding: 10px 40px;" type="submit">Submit</button>
                                                 <button class="btn btn-md btn-danger btn-round" style="padding: 10px 40px;"><a href="/dashboard" style="color: white">Cancel</a></button>
-                                            </div>
                                         </div>
+                                    </div>
                                     </form>
                                 </div>
                             </div>
