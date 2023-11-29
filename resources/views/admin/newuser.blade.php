@@ -66,6 +66,7 @@
                                                     <option></option>
                                                     <option value="1" >Loan Coordinator</option>
                                                     <option value="0">Admin</option>
+                                                    <option value="2">Loan Officer Assistant</option>
                                                 </select>
                                             </div>
                                             <label class="col-sm-2 col-form-label">Avatar</label>

@@ -67,6 +67,7 @@ Route::post('/gettaskname', [Controller::class,'gettaskname']);
 Route::post('/editorderoutlist', [Controller::class,'editorderoutlist']);
 Route::post('/edittasklist', [Controller::class,'edittasklist']);
 Route::post('/addnewtasklist', [Controller::class,'addnewtasklist']);
+Route::post('/deleteloan', [Controller::class,'deleteloan']);
 
 
 Route::get('/test', [Controller::class,'test']);

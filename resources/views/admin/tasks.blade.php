@@ -39,7 +39,7 @@
                                                 @php ($x = 0)
                                                 @foreach ($data as $tasks)
                                                     <tr>
-                                                        <td>{{ $tasks->loan_number }}</td>
+                                                        <td><a href="loaninformation/{{$tasks->loan}}">{{ $tasks->loan_number }}</a></td>
                                                         <td>{{ $tasks->branch_name }}</td>
                                                         <td>{{ $tasks->task_name }}</td>
                                                         <td>{{ $tasks->borrower }}</td>

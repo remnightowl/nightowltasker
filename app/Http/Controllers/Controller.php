@@ -275,11 +275,21 @@ class Controller extends BaseController
 
     public function loanlist(){
 
-        $loans = DB::table('loans')
+        if(session('user_type') == 0){
+            $loans = DB::table('loans')
+                    ->join('branch', 'loans.branch', '=', 'branch.id')
+                    ->select('branch.*', 'loans.*')
+                    ->get();
+        }
+        else{
+            $loans = DB::table('loans')
                     ->join('branch', 'loans.branch', '=', 'branch.id')
                     ->select('branch.*', 'loans.*')
                     ->where('loans.branch',session('branch'))
                     ->get();
+        }
+
+        
 
         $coordinators = array();
 
@@ -503,16 +513,21 @@ class Controller extends BaseController
     public function dashboard(){
 
         $users = DB::table('user')->count();
-        $loans = DB::table('loans')->count();
         $branches = DB::table('branch')->count();
-        $overduetasks = DB::table('tasks')
+
+        if(session('user_type') == 0){
+            $loans = DB::table('loans')->count();
+
+            $overduetasks = DB::table('tasks')
                             ->join('loans', 'tasks.loan', '=', 'loans.id')
                             ->join('branch', 'loans.branch', '=', 'branch.id')
                             ->select('tasks.*', 'branch.branch_name','branch.overdue_interval', 'loans.*')
                             ->whereRaw("DATEDIFF(NOW(), start) >= `overdue_interval`")
                             ->whereNull('tasks.end')
                             ->count();
-        $overdueorderouts = DB::table('orderouts')
+
+
+            $overdueorderouts = DB::table('orderouts')
                     ->join('loans', 'orderouts.loan', '=', 'loans.id')
                     ->join('branch', 'loans.branch', '=', 'branch.id')
                     ->select('orderouts.*', 'branch.branch_name','branch.overdue_interval', 'loans.*')
@@ -524,8 +539,48 @@ class Controller extends BaseController
                         END
                         "
                     )
-                    ->where('status', '!=', 'Completed')
+                    ->where([
+                        ['status', '!=', 'Completed'],
+                        ['status', '!=', 'Cancelled'],
+                        ['status', '!=', 'Withdrawn'],
+                        ['status', '!=', 'Closing Stage']
+                    ])
                     ->count();
+        }
+        else{
+            $loans = DB::table('loans')->where('branch',session('branch'))->count();
+            $overduetasks = DB::table('tasks')
+                            ->join('loans', 'tasks.loan', '=', 'loans.id')
+                            ->join('branch', 'loans.branch', '=', 'branch.id')
+                            ->select('tasks.*', 'branch.branch_name','branch.overdue_interval', 'loans.*')
+                            ->where('loans.branch',session('branch'))
+                            ->whereRaw("DATEDIFF(NOW(), start) >= `overdue_interval`")
+                            ->whereNull('tasks.end')
+                            ->count();
+
+
+            $overdueorderouts = DB::table('orderouts')
+                    ->join('loans', 'orderouts.loan', '=', 'loans.id')
+                    ->join('branch', 'loans.branch', '=', 'branch.id')
+                    ->select('orderouts.*', 'branch.branch_name','branch.overdue_interval', 'loans.*')
+                    ->whereRaw(
+                        "CASE
+                            WHEN third IS NOT NULL THEN DATEDIFF(NOW(), third) >= `overdue_interval`
+                            WHEN second IS NOT NULL THEN DATEDIFF(NOW(), second) >= `overdue_interval`
+                            ELSE DATEDIFF(NOW(), first) >= `overdue_interval`
+                        END
+                        "
+                    )
+                    ->where([
+                        ['loans.branch', '=', session('branch')],
+                        ['status', '!=', 'Completed'],
+                        ['status', '!=', 'Cancelled'],
+                        ['status', '!=', 'Withdrawn'],
+                        ['status', '!=', 'Closing Stage']
+                    ])
+                    ->count();
+        }
+        
 
         $data = ([
             'users' => $users,
@@ -597,8 +652,12 @@ class Controller extends BaseController
                         END
                         "
                     )
-                    ->where('status', '!=', 'Completed')
-                    ->where('status', '!=', 'Cancelled')
+                    ->where([
+                        ['status', '!=', 'Completed'],
+                        ['status', '!=', 'Cancelled'],
+                        ['status', '!=', 'Withdrawn'],
+                        ['status', '!=', 'Closing Stage']
+                    ])
                     ->get();
 
         $users = User::all();
@@ -1013,12 +1072,22 @@ class Controller extends BaseController
 
     public function tasks(){
 
-        $data = DB::table('tasks')
+        if(session('user_type') == 0){
+            $data = DB::table('tasks')
+                    ->join('loans', 'tasks.loan', '=', 'loans.id')
+                    ->join('branch', 'loans.branch', '=', 'branch.id')
+                    ->select('tasks.*', 'branch.branch_name','loans.loan_number','loans.borrower','loans.requestor','loans.loan_coordinator')
+                    ->get();
+        }
+        else{
+            $data = DB::table('tasks')
                     ->join('loans', 'tasks.loan', '=', 'loans.id')
                     ->join('branch', 'loans.branch', '=', 'branch.id')
                     ->select('tasks.*', 'branch.branch_name','loans.loan_number','loans.borrower','loans.requestor','loans.loan_coordinator')
                     ->where('loans.branch',session('branch'))
                     ->get();
+        }
+
         
         $users = User::all();
 
@@ -1064,12 +1133,22 @@ class Controller extends BaseController
 
     public function orderouts(){
 
-        $data = DB::table('orderouts')
+        if(session('user_type') == 0){
+            $data = DB::table('orderouts')
+                    ->join('loans', 'orderouts.loan', '=', 'loans.id')
+                    ->join('branch', 'loans.branch', '=', 'branch.id')
+                    ->select('orderouts.*', 'branch.branch_name','branch.overdue_interval', 'loans.loan_number','loans.borrower','loans.requestor','loans.loan_coordinator')
+                    ->get();
+        }
+        else{
+            $data = DB::table('orderouts')
                     ->join('loans', 'orderouts.loan', '=', 'loans.id')
                     ->join('branch', 'loans.branch', '=', 'branch.id')
                     ->select('orderouts.*', 'branch.branch_name','branch.overdue_interval', 'loans.loan_number','loans.borrower','loans.requestor','loans.loan_coordinator')
                     ->where('loans.branch',session('branch'))
                     ->get();
+        }
+
 
         $users = User::all();
 
@@ -1217,6 +1296,11 @@ class Controller extends BaseController
         $orderouts = OrderOuts::all();
 
         return view('admin.newloancopy', compact('branches','coordinators','requestors','tasks','orderouts'));
+    }
+
+    public function deleteloan(Request $data){
+
+        Loans::deleteLoan($data);
     }
 
     public function addloantest(Request $data){

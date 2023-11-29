@@ -111,7 +111,7 @@
                             <span class="pcoded-mtext">User Management</span>
                         </a>
                         <ul class="pcoded-submenu">
-                            @if (session('user_type') == 0)
+                            @if (session('user_type') == 0 || session('user_type') == 2)
                             <li class=" ">
                                 <a href="/newuser">
                                     <i class="feather icon-user-plus" style="margin-right:10px;"></i>

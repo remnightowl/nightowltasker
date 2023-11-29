@@ -54,4 +54,11 @@ class Loans extends Model
                 'remarks' => $data['loanremarks'],
             ]);
     }
+
+    public static function deleteLoan($data){
+
+        DB::table('loans')
+            ->where('id',$data['id'])
+            ->delete();
+    }
 }

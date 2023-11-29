@@ -2,7 +2,7 @@
 @include('admin/navbar')
 
 <?php
-date_default_timezone_set("Asia/Manila");
+date_default_timezone_set('America/Los_Angeles');
 ?>
 
 <div class="pcoded-content">

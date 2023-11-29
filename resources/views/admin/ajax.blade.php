@@ -574,6 +574,44 @@ $.ajaxSetup({
         });  
     })
 
+    $('.deleteloan').click(function(e){
+
+        var id = $(this).attr("id");
+        
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "you want to delete this loan?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!'
+        }).then((willDelete) => {
+            if (willDelete.isConfirmed) {
+                Swal.fire(
+                    'Deleted!',
+                    'Loan has been deleted.',
+                    'success'
+                ).then((confirmdelete) => {
+                    if(confirmdelete){
+                        $.ajax({
+                            url: '/deleteloan',
+                            type: 'POST',
+                            data: {
+                                id: id
+                            },
+                            dataType: 'HTML',
+                            success: function(response){
+                                window.location.reload();
+                            }
+                        });
+                    }
+                });
+                
+            }
+        })
+    })
+
     
 
 </script>

@@ -53,7 +53,7 @@
                                                                     <a href="/loaninformation/{{$loan->id}}">
                                                                         <button class="btn btn-md btn-success btn-round"><i class="feather icon-edit"></i>Full Information</button>
                                                                     </a>
-                                                                    <button class="btn btn-md btn-danger btn-round"><i class="feather icon-edit"></i>Delete</button>
+                                                                    <button class="btn btn-md btn-danger btn-round deleteloan" id="{{$loan->id}}"><i class="feather icon-edit"></i>Delete</button>
                                                                 </div>     
                                                             </div>
                                                         </td>

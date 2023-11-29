@@ -56,7 +56,7 @@
                                                 <select name="userrole" class="form-control">
                                                     <option></option>
                                                     <option value="1" @if($data->user_type == 1) selected @endif>Loan Coordinator</option>
-                                                    <option value="2" @if($data->user_type == 2) selected @endif>Requestor</option>
+                                                    <option value="2" @if($data->user_type == 2) selected @endif>Loan Officer Assistant</option>
                                                     <option value="0" @if($data->user_type == 0) selected @endif>Admin</option>
                                                 </select>
                                             </div>
