@@ -595,13 +595,25 @@ class Controller extends BaseController
 
     public function overduetasks(){
 
-        $data = DB::table('tasks')
+        if(session('user_type') == 0){
+            $data = DB::table('tasks')
                     ->join('loans', 'tasks.loan', '=', 'loans.id')
                     ->join('branch', 'loans.branch', '=', 'branch.id')
                     ->select('tasks.*', 'branch.branch_name','branch.overdue_interval', 'loans.*')
                     ->whereRaw("DATEDIFF(NOW(), start) >= `overdue_interval`")
                     ->whereNull('tasks.end')
                     ->get();
+        }
+        else{
+            $data = DB::table('tasks')
+                    ->join('loans', 'tasks.loan', '=', 'loans.id')
+                    ->join('branch', 'loans.branch', '=', 'branch.id')
+                    ->select('tasks.*', 'branch.branch_name','branch.overdue_interval', 'loans.*')
+                    ->where('loans.branch', session('branch'))
+                    ->whereRaw("DATEDIFF(NOW(), start) >= `overdue_interval`")
+                    ->whereNull('tasks.end')
+                    ->get();
+        }
         
         $users = User::all();
 
@@ -1271,11 +1283,65 @@ class Controller extends BaseController
         return response()->json($data);
     }
 
-    public function test(){
+    public function test(Request $data){
         
+        
+        
+    }
 
-        dd(date('F j, Y g:i a'));
-        return view('admin.test');
+    public function filteredorderouts(Request $data){
+
+        if(session('user_type') == 0){
+            $data = DB::table('orderouts')
+                    ->join('loans', 'orderouts.loan', '=', 'loans.id')
+                    ->join('branch', 'loans.branch', '=', 'branch.id')
+                    ->select('orderouts.*', 'branch.branch_name','branch.overdue_interval', 'loans.loan_number','loans.borrower','loans.requestor','loans.loan_coordinator')
+                    ->where('orderouts.status', '=', $data['status'])
+                    ->get();
+        }
+        else{
+            $data = DB::table('orderouts')
+                    ->join('loans', 'orderouts.loan', '=', 'loans.id')
+                    ->join('branch', 'loans.branch', '=', 'branch.id')
+                    ->select('orderouts.*', 'branch.branch_name','branch.overdue_interval', 'loans.loan_number','loans.borrower','loans.requestor','loans.loan_coordinator')
+                    ->where('loans.branch',session('branch'))
+                    ->where('orderouts.status', '=', $data['status'])
+                    ->get();
+        }
+
+
+        $users = User::all();
+
+        $loancoordinators = [];
+        $coordinatorslist = [];
+        $coordinatorname = "";
+            
+        foreach($data as $coordinators){
+            array_push($loancoordinators,$coordinators->loan_coordinator);
+        }
+
+        for($x = 0; $x < count($loancoordinators); $x++){
+
+            $loan_coordinators = explode(',', $loancoordinators[$x]);
+
+            for($i = 0; $i < count($loan_coordinators); $i++){
+                foreach($users as $user){
+                    if($user->id == $loan_coordinators[$i]){
+                        if($i == 0){
+                            $coordinatorname = $user->first_name." ".$user->last_name;
+                            // array_push($coordinatorslist,$user->first_name." ".$user->last_name);
+                        }
+                        else{
+                            $coordinatorname = $coordinatorname.", ".$user->first_name." ".$user->last_name;
+                        }
+                    }
+                }
+                
+            }
+            array_push($coordinatorslist,$coordinatorname);
+        }
+        
+        return view('admin.filteredstatus', compact('data','coordinatorslist','users'));
     }
 
     public function test1(){

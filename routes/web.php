@@ -68,9 +68,10 @@ Route::post('/editorderoutlist', [Controller::class,'editorderoutlist']);
 Route::post('/edittasklist', [Controller::class,'edittasklist']);
 Route::post('/addnewtasklist', [Controller::class,'addnewtasklist']);
 Route::post('/deleteloan', [Controller::class,'deleteloan']);
+Route::post('/filteredorderouts', [Controller::class,'filteredorderouts']);
 
 
-Route::get('/test', [Controller::class,'test']);
+Route::post('/test', [Controller::class,'test']);
 Route::get('/test1', [Controller::class,'test1']);
 Route::post('/addloantest', [Controller::class,'addloantest']);
 

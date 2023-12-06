@@ -53,7 +53,7 @@
                                             <div class="col-lg-4 col-md-4 col-sm-12">
                                                 <input type="text" class="form-control" name="requestor" value="{{old('requestor')}}">
                                             </div>
-                                            <label class="col-lg-2 col-md-2 col-sm-12 col-form-label">Assigned Loan Coordinator</label>
+                                            <label class="col-lg-2 col-md-2 col-sm-12 col-form-label">Assigned Loan Coordinator / LOA</label>
                                             <div class="col-lg-4 col-md-4 col-sm-12">
                                                 <select class="js-example-basic-multiple col-sm-12 select2-hidden-accessible" name="coordinator[]" id="coordinator" multiple="" tabindex="-1" aria-hidden="true" disabled>
                                                     <option value="" disabled></option>

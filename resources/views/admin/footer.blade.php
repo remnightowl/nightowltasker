@@ -47,7 +47,7 @@
 <script src="{{asset('admin/assets/js/jquery.quicksearch.js')}}"></script>
 <script src="{{asset('admin/assets/pages/advance-elements/select2-custom.js')}}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
 <!--Google API -->
 
 

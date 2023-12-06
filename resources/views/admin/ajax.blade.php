@@ -1,6 +1,5 @@
 <script>
 
-
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -611,6 +610,13 @@ $.ajaxSetup({
             }
         })
     })
+
+   $('.filterstatus').change(function(e){
+
+        var form = $(this).closest("form");
+
+        form.submit();
+   })
 
     
 

@@ -30,7 +30,8 @@
                                                     <th>Borrower</th>
                                                     <th>Requestor</th>
                                                     <th>Assigned Loan Coordinators</th>
-                                                    <th>remarks</th>
+                                                    <th>Remarks</th>
+                                                    <th>Date Created</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -47,6 +48,7 @@
                                                         <td> {{ $loan->requestor }} </td>
                                                         <td> {{$coordinators[$x]}}</td>
                                                         <td> {{$loan->remarks}} </td>
+                                                        <td> {{ date('F d, Y',strtotime($loan->date_created)) }} </td>
                                                         <td>
                                                             <div class="row">
                                                                 <div class="col-md-12">
