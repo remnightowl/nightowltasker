@@ -71,7 +71,7 @@ Route::post('/deleteloan', [Controller::class,'deleteloan']);
 Route::post('/filteredorderouts', [Controller::class,'filteredorderouts']);
 
 
-Route::post('/test', [Controller::class,'test']);
+Route::get('/test', [Controller::class,'test']);
 Route::get('/test1', [Controller::class,'test1']);
 Route::post('/addloantest', [Controller::class,'addloantest']);
 
